@@ -1,0 +1,18 @@
+# Compiled Java classes
+bin/
+build/
+out/
+
+# IDE files
+*.iml
+*.idea/
+*.class
+
+# JavaFX native libraries (large files)
+lib/openjfx-*/javafx-sdk-*/lib/*.so
+lib/openjfx-*/javafx-sdk-*/lib/*.dll
+lib/openjfx-*/javafx-sdk-*/lib/*.dylib
+
+# OS files
+.DS_Store
+Thumbs.db
