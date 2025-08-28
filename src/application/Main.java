@@ -9,7 +9,7 @@ import javafx.stage.Stage;
 public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/login.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/welcome.fxml"));
         Parent root = loader.load();
         Scene scene = new Scene(root, 800, 600);
         primaryStage.setTitle("Food4All - A Food Donation System");

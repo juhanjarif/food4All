@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<VBox spacing="14" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="controller.WelcomeController" alignment="CENTER">
+    <padding><Insets top="28" right="28" bottom="28" left="28"/></padding>
+    
+    <Label fx:id="welcomeLabel" text="Food Donation System" styleClass="heading" />
+    <Label text="Welcome! Choose an option:" />
+    
+    <HBox spacing="10" alignment="CENTER">
+        <Button fx:id="loginBtn" text="Login" onAction="#onLogin" prefWidth="140"/>
+        <Button fx:id="registerBtn" text="Register" onAction="#onRegister" prefWidth="140"/>
+    </HBox>
+</VBox>
