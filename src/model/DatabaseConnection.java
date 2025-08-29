@@ -9,7 +9,8 @@ import java.security.NoSuchAlgorithmException;
 public class DatabaseConnection {
 
     // url to database file
-    private static final String URL = "jdbc:sqlite:/home/jarif/Desktop/code/java/food-for-all/data/food4all.db"; 
+	private static final String URL = "jdbc:sqlite:E:\\Eclipse IDE launcher\\food4all\\resources\\Database\\food4all.db";
+
 
     public static Connection getConnection() throws SQLException {
         return DriverManager.getConnection(URL);
