@@ -7,6 +7,7 @@ public class Donation {
     private String foodDetails;
     private int quantity;
     private String status;
+    
     //constructer
     public Donation(int id, int donorId, String foodDetails, int quantity, String status) {
         this.id = id;
@@ -23,7 +24,7 @@ public class Donation {
         this.status = status;
     }
     
-    //getter r setter function
+    //getter n setter function
     public int getId() {
         return id;
     }
