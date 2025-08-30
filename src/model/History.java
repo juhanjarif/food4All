@@ -6,22 +6,20 @@ public class History {
     private int donationId;
     private int volunteerId;
     private String deliveredAt;
-    
-    //constructor 
+
     public History(int id, int donationId, int volunteerId, String deliveredAt) {
         this.id = id;
         this.donationId = donationId;
         this.volunteerId = volunteerId;
         this.deliveredAt = deliveredAt;
     }
- 
+
     public History(int donationId, int volunteerId, String deliveredAt) {
         this.donationId = donationId;
         this.volunteerId = volunteerId;
         this.deliveredAt = deliveredAt;
     }
-    
-    //getter and setter function
+
     public int getId() {
         return id;
     }
