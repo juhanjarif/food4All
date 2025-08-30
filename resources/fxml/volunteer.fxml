@@ -1,9 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.control.Button?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.VolunteerController">
-    <ListView fx:id="foodListView" layoutX="14.0" layoutY="14.0" prefHeight="200.0" prefWidth="300.0"/>
-    <Button text="Claim Donation" layoutX="100.0" layoutY="230.0" onAction="#claimDonation"/>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="controller.FoodClaimController">
+    <TableView fx:id="donationTable" layoutX="14" layoutY="14" prefWidth="500" prefHeight="300">
+        <columns>
+            <TableColumn fx:id="colId" text="ID"/>
+            <TableColumn fx:id="colFoodDetails" text="Food"/>
+            <TableColumn fx:id="colQuantity" text="Quantity"/>
+            <TableColumn fx:id="colAmount" text="Amount"/> 
+            <TableColumn fx:id="colStatus" text="Status"/>
+        </columns>
+    </TableView>
+    <Button fx:id="claimButton" text="Claim Donation" layoutX="14" layoutY="330"/>
 </AnchorPane>
+

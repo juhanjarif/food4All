@@ -7,6 +7,19 @@ public class Donation {
     private String foodDetails;
     private int quantity;
     private String status;
+    private double amount;
+    
+    public Donation() {
+    }
+    
+    public Donation(int id, int donorId, String foodDetails, int quantity, String status, double amount) {
+        this.id = id;
+        this.donorId = donorId;
+        this.foodDetails = foodDetails;
+        this.quantity = quantity;
+        this.status = status;
+        this.amount = amount;
+    }
 
     public Donation(int id, int donorId, String foodDetails, int quantity, String status) {
         this.id = id;
@@ -22,6 +35,14 @@ public class Donation {
         this.quantity = quantity;
         this.status = status;
     }
+  
+    public double getAmount() { 
+    	return amount; 
+    }
+    public void setAmount(double amount) { 
+    	this.amount = amount; 
+    }
+
 
     public int getId() {
         return id;

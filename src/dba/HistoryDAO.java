@@ -34,7 +34,23 @@ public class HistoryDAO {
             stmt.setInt(1, user.getId());
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
-                    History historyItem = new History(rs.getInt("id"), rs.getInt("donation_id"), rs.getInt("volunteer_id"), rs.getString("claim_date"));
+                    
+                    int volunteerId = 0; 
+                    try {
+                        volunteerId = rs.getInt("volunteer_id");
+                        if (rs.wasNull()) volunteerId = 0;
+                    } catch (SQLException ex) {
+                        volunteerId = 0;
+                    }
+
+                   
+                    History historyItem = new History(
+                            rs.getInt("id"),
+                            rs.getInt("donation_id"),
+                            volunteerId,
+                            rs.getString("claim_date")
+                    );
+
                     history.add(historyItem);
                 }
             }

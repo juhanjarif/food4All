@@ -6,6 +6,10 @@ public class History {
     private int donationId;
     private int volunteerId;
     private String deliveredAt;
+    
+    public History(){
+    	
+    }
 
     public History(int id, int donationId, int volunteerId, String deliveredAt) {
         this.id = id;
@@ -31,6 +35,10 @@ public class History {
     public void setDonationId(int donationId) {
         this.donationId = donationId;
     }
+    //history id setter add korsi 31/08/25
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public int getVolunteerId() {
         return volunteerId;
@@ -47,4 +55,26 @@ public class History {
     public void setDeliveredAt(String deliveredAt) {
         this.deliveredAt = deliveredAt;
     }
+    
+    // Ei field e donation er food details rakhbo, jate HistoryLogController e show kora jay
+    private String foodDetails;
+
+    public String getFoodDetails() {
+        return foodDetails;
+    }
+
+    public void setFoodDetails(String foodDetails) {
+        this.foodDetails = foodDetails;
+    }
+    
+    private double amount; // amount field add korsi
+
+    public double getAmount() { 
+    	return amount; 
+    }
+    public void setAmount(double amount) { 
+    	this.amount = amount; 
+    }
+
+
 }
