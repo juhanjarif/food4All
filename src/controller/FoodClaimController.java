@@ -38,7 +38,6 @@ public class FoodClaimController {
         colStatus.setCellValueFactory(cell -> new javafx.beans.property.SimpleStringProperty(cell.getValue().getStatus()));
         colAmount.setCellValueFactory(cell -> new SimpleDoubleProperty(cell.getValue().getAmount()).asObject());
 
-	
         loadDonations();
 
         claimButton.setOnAction(e -> claimDonation());
@@ -62,7 +61,6 @@ public class FoodClaimController {
             return;
         }
 
-        
         boolean updated = DonorDao.updateDonationStatus(selected.getId(), "CLAIMED");
         if (!updated) {
             new Alert(Alert.AlertType.ERROR, "Failed to claim donation.").show();

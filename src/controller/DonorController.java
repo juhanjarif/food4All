@@ -5,8 +5,6 @@ import javafx.scene.control.*;
 import model.Donation;
 import model.History;
 import dba.DonorDao;
-
-import java.sql.*;
 public class DonorController {
 	
 	//Form ta banaisi donor.fxml so oigula ana hoilo controller e
@@ -16,14 +14,13 @@ public class DonorController {
     @FXML private Button submitDonation;
     @FXML private TextField amount; 
 
-
-
     private int currentDonorId = 1;
 
     @FXML
     public void initialize() {
         submitDonation.setOnAction(e -> onSubmit());
     }
+    
     //action submit e table e add hoye jabe 
     private void onSubmit() {
         try {
@@ -37,7 +34,6 @@ public class DonorController {
             donation.setFoodDetails(foodName.getText() + " (" + unitStr + ")");
 
             donation.setStatus("PENDING");
-
       
             int donationId = DonorDao.addDonationReturnId(donation);
             
@@ -51,15 +47,18 @@ public class DonorController {
 
                 clearForm();
                 new Alert(Alert.AlertType.INFORMATION, "Donation submitted successfully!").show();
-            } else {
+            }
+            else {
                 new Alert(Alert.AlertType.ERROR, "Failed to submit donation").show();
             }
 
-        } catch (Exception e) {
+        } 
+        catch (Exception e) {
             new Alert(Alert.AlertType.ERROR, "Error: " + e.getMessage()).show();
             e.printStackTrace();
         }
     }
+    
     //clear korar jonno
     private void clearForm() {
         foodName.clear();

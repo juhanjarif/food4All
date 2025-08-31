@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.Pos?>
+
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="controller.VolunteerDashboardController" spacing="20" alignment="center">
+    
+    <Label text="Volunteer Dashboard" style="-fx-font-size: 24px; -fx-font-weight: bold;" />
+
+    <VBox spacing="10">
+        <Label text="Name:" fx:id="volunteerNameLabel"/>
+        <Label text="Area:" fx:id="volunteerAreaLabel"/>
+        <Label text="Phone:" fx:id="volunteerPhoneLabel"/>
+        <Label text="Email:" fx:id="volunteerEmailLabel"/>
+    </VBox>
+
+    <HBox spacing="20" alignment="center">
+        <VBox>
+            <Label text="Last Week Distribution:"/>
+            <Label fx:id="weeklyDistributionLabel" />
+        </VBox>
+        <VBox>
+            <Label text="Last Month Distribution:"/>
+            <Label fx:id="monthlyDistributionLabel" />
+        </VBox>
+        <VBox>
+            <Label text="Total Distribution:"/>
+            <Label fx:id="totalDistributionLabel" />
+        </VBox>
+    </HBox>
+
+    <Label text="Time left for next distribution:"/>
+    <Label fx:id="remainingTimeLabel" style="-fx-font-size: 18px;"/>
+
+    <Label text="Available Donations"/>
+    <ListView fx:id="foodListView" prefHeight="200" />
+
+    <LineChart fx:id="performanceChart" prefHeight="400" prefWidth="600">
+        <xAxis>
+            <CategoryAxis label="Month"/>
+        </xAxis>
+        <yAxis>
+            <NumberAxis label="Amount"/>
+        </yAxis>
+    </LineChart>
+
+    <HBox spacing="10" alignment="center">
+        <Button text="Claim Donation" fx:id="claimDonationButton" onAction="#claimDonation"/>
+        <Button text="Logout" fx:id="logoutButton" onAction="#logout"/>
+    </HBox>
+</VBox>

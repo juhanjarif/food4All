@@ -4,6 +4,7 @@ public class Donation {
 
     private int id;
     private int donorId;
+    private String donorName; 
     private String foodDetails;
     private int quantity;
     private String status;
@@ -12,9 +13,10 @@ public class Donation {
     public Donation() {
     }
     
-    public Donation(int id, int donorId, String foodDetails, int quantity, String status, double amount) {
+    public Donation(int id, int donorId, String donorName, String foodDetails, int quantity, String status, double amount) {
         this.id = id;
         this.donorId = donorId;
+        this.donorName = donorName;
         this.foodDetails = foodDetails;
         this.quantity = quantity;
         this.status = status;
@@ -54,6 +56,14 @@ public class Donation {
 
     public void setDonorId(int donorId) {
         this.donorId = donorId;
+    }
+    
+    public String getDonorName() { 
+    	return donorName; 
+    } 
+    
+    public void setDonorName(String donorName) { 
+        this.donorName = donorName; 
     }
 
     public String getFoodDetails() {

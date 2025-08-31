@@ -7,11 +7,17 @@ import model.DatabaseConnection;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 public class DonorDao {
 	
-
+	private static final String URL = "jdbc:sqlite:/home/jarif/Desktop/code/java/food-for-all/resources/data/food4all.db";
+    public static Connection getConnection() throws SQLException {
+        return DriverManager.getConnection(URL);
+    }
+    
     // user der data table e add korar jonno
     public static boolean addUser(User user) {
         String sql = "INSERT INTO users (username, password, userType) VALUES (?, ?, ?)";
@@ -24,7 +30,8 @@ public class DonorDao {
             ps.setString(3, user.getUserType());
             return ps.executeUpdate() > 0;
 
-        } catch (SQLException e) {
+        } 
+        catch (SQLException e) {
             e.printStackTrace();
             return false;
         }
@@ -48,7 +55,8 @@ public class DonorDao {
                 );
             }
 
-        } catch (SQLException e) {
+        } 
+        catch (SQLException e) {
             e.printStackTrace();
         }
         return null;
@@ -67,7 +75,8 @@ public class DonorDao {
             ps.setDouble(5, donation.getAmount()); // amount add kora holo
             return ps.executeUpdate() > 0;
 
-        } catch (SQLException e) {
+        } 
+        catch (SQLException e) {
             e.printStackTrace();
             return false;
         }
@@ -85,13 +94,14 @@ public class DonorDao {
         	        rs.getInt("id"),
         	        rs.getInt("donorId"),
         	        rs.getString("foodDetails"),
-        	        rs.getInt("quantity"),
+        	        sql, rs.getInt("quantity"),
         	        rs.getString("status"),
         	        rs.getDouble("amount")
         	    ));
         	}
 
-        } catch (SQLException e) {
+        } 
+        catch (SQLException e) {
             e.printStackTrace();
         }
         return list;
@@ -108,7 +118,8 @@ public class DonorDao {
             ps.setString(3, history.getDeliveredAt());
             return ps.executeUpdate() > 0;
 
-        } catch (SQLException e) {
+        }
+        catch (SQLException e) {
             e.printStackTrace();
             return false;
         }
@@ -121,7 +132,8 @@ public class DonorDao {
             ps.setString(1, status);
             ps.setInt(2, donationId);
             return ps.executeUpdate() > 0;
-        } catch (SQLException e) {
+        } 
+        catch (SQLException e) {
             e.printStackTrace();
             return false;
         }
@@ -129,7 +141,7 @@ public class DonorDao {
     
  
     // Ei method diye sob donation er history paoa jabe
- // 'history' ar 'donations' table join kore sob info niye asha hoyeche, jate HistoryLogController e use kora jai
+    // 'history' ar 'donations' table join kore sob info niye asha hoyeche, jate HistoryLogController e use kora jai
 
     public static List<History> getAllHistory() {
         List<History> list = new ArrayList<>();
@@ -152,11 +164,13 @@ public class DonorDao {
                 list.add(history);
             }
 
-        } catch (SQLException e) {
+        } 
+        catch (SQLException e) {
             e.printStackTrace();
         }
         return list;
     }
+    
     public static int addDonationReturnId(Donation donation) {
         String sql = "INSERT INTO donations (donorId, foodDetails, quantity, status, amount) VALUES (?, ?, ?, ?, ?)";
         try (Connection conn = DatabaseConnection.getConnection();
@@ -175,11 +189,60 @@ public class DonorDao {
                 if (rs.next()) return rs.getInt(1);
             }
 
-        } catch (SQLException e) {
+        } 
+        catch (SQLException e) {
             e.printStackTrace();
         }
         return -1;
     }
+    
+    // getting donation object from description used in dashboard
+    public Donation getDonationByDescription(String description) {
+        String sql = "SELECT * FROM donations WHERE foodDetails || ' (' || quantity || ') - Donor: ' || donorName = ?";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
 
+            ps.setString(1, description);
+            ResultSet rs = ps.executeQuery();
 
+            if (rs.next()) {
+                return new Donation(
+                        rs.getInt("id"),
+                        rs.getInt("donorId"),
+                        rs.getString("foodDetails"),
+                        sql, rs.getInt("quantity"),
+                        rs.getString("status"),
+                        rs.getDouble("amount")
+                );
+            }
+
+        } 
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    
+    // monthly performance stats for volunteers
+    public Map<String, Integer> getMonthlyPerformance(int volunteerId) {
+        Map<String, Integer> stats = new LinkedHashMap<>();
+        String sql = "SELECT strftime('%Y-%m', deliveredAt) AS month, COUNT(*) AS count " +
+                     "FROM history WHERE volunteerId = ? GROUP BY month ORDER BY month ASC";
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, volunteerId);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                stats.put(rs.getString("month"), rs.getInt("count"));
+            }
+
+        } 
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return stats;
+    }
 }

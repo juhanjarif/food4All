@@ -32,13 +32,13 @@ public class VolunteerController {
     public void claimDonation() {
         Donation selectedDonation = foodListView.getSelectionModel().getSelectedItem();
         if (selectedDonation != null) {
-            // Assuming getCurrentUser() is a method that retrieves the current logged-in user
             User currentUser = getCurrentUser(); 
             historyDAO.addClaimHistory(currentUser, selectedDonation);
             volunteerDAO.claimDonation(selectedDonation);
             showAlert("Donation Claimed", "You have successfully claimed the donation!");
-            loadAvailableDonations();  // Refresh the list of donations
-        } else {
+            loadAvailableDonations();
+        } 
+        else {
             showAlert("No Selection", "Please select a donation to claim.");
         }
     }

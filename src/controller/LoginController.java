@@ -8,6 +8,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import model.DatabaseConnection;
+import model.SessionManager;
+import model.User;
 
 import java.sql.*;
 
@@ -46,7 +48,7 @@ public class LoginController {
         String table = restaurantRadio.isSelected() ? "restaurants" : "volunteers";
 
         //SQL Query to fetch email or phone number that was filled up while registering
-        String query = "SELECT id, name, password_hash FROM " + table + " WHERE email_or_phone = ? OR phone_number = ?";
+        String query = "SELECT id, name, password_hash, address, phone_number, email_or_phone FROM " + table + " WHERE email_or_phone = ? OR phone_number = ?";
 
         try (Connection c = DatabaseConnection.getConnection();
              PreparedStatement ps = c.prepareStatement(query)) {
@@ -61,7 +63,22 @@ public class LoginController {
                     // comparing w password hash
                     if (hash.equals(DatabaseConnection.sha256(pass))) {
                         setStatus("Welcome, " + rs.getString("name") + "!");
-                        go("/fxml/dashboard.fxml", 800, 600);
+                        
+                        // Create User object and set it in SessionManager
+                        User loggedInUser = new User(
+                            rs.getInt("id"),
+                            rs.getString("name"),
+                            pass, 
+                            table.equals("volunteers") ? "volunteer" : "restaurant",
+                            rs.getString("address"),
+                            rs.getString("phone_number"),
+                            rs.getString("email_or_phone")
+                        );
+                        
+                        SessionManager.setCurrentUser(loggedInUser);
+
+                        String dashboardFxml = restaurantRadio.isSelected() ? "/fxml/restaurant_dashboard.fxml" : "/fxml/volunteer_dashboard.fxml";
+                        go(dashboardFxml, 800, 600);
                         return;
                     }
                 }
