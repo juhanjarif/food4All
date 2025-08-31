@@ -44,5 +44,6 @@
     
     
     <Button fx:id="submitDonation" layoutX="125.0" layoutY="355.0" prefHeight="30" prefWidth="150" text="Submit Donation" />
+    <Button fx:id="returnButton" layoutX="125.0" layoutY="395.0" prefHeight="30" prefWidth="150" text="Return" onAction="#returnToDashboard" />
     
 </AnchorPane>

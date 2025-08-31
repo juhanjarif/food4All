@@ -1,17 +1,24 @@
 package controller;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
 import model.Donation;
 import model.History;
+
+import java.io.IOException;
+
 import dba.DonorDao;
 public class DonorController {
-	
 	//Form ta banaisi donor.fxml so oigula ana hoilo controller e
     @FXML private TextField foodName, quantity, unit, locationField;
     @FXML private DatePicker preparedAt, expiresAt;
     @FXML private TextArea notes;
     @FXML private Button submitDonation;
+    @FXML private Button returnButton; 
     @FXML private TextField amount; 
 
     private int currentDonorId = 1;
@@ -57,6 +64,31 @@ public class DonorController {
             new Alert(Alert.AlertType.ERROR, "Error: " + e.getMessage()).show();
             e.printStackTrace();
         }
+    }
+    
+    @FXML
+    private void returnToDashboard() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/donor_dashboard.fxml"));
+            Parent dashboardRoot = loader.load();
+            
+            Stage currentStage = (Stage) returnButton.getScene().getWindow();
+            currentStage.setScene(new Scene(dashboardRoot, 800, 600));
+            currentStage.show();
+            
+        } 
+        catch (IOException e) {
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Error", "Failed to load donor dashboard.");
+        }
+    }
+
+    private void showAlert(Alert.AlertType type, String title, String msg) {
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(msg);
+        alert.showAndWait();
     }
     
     //clear korar jonno

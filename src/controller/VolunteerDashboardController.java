@@ -92,7 +92,8 @@ public class VolunteerDashboardController {
         }
     }
 
-    private void loadAvailableDonations() {
+    @SuppressWarnings("static-access")
+	private void loadAvailableDonations() {
         foodListView.getItems().clear();
         List<Donation> donations = donorDao.getAllDonations();
         for (Donation d : donations) {
@@ -165,8 +166,6 @@ public class VolunteerDashboardController {
             showAlert(Alert.AlertType.ERROR, "Error", "Failed to load login screen.");
         }
     }
-
-
 
     private void showAlert(Alert.AlertType type, String title, String msg) {
         Alert alert = new Alert(type);

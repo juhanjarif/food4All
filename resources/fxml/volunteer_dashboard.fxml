@@ -11,7 +11,7 @@
     
     <Label text="Volunteer Dashboard" style="-fx-font-size: 24px; -fx-font-weight: bold;" />
 
-    <VBox spacing="10">
+    <VBox spacing="10" layoutX="10">
         <Label text="Name:" fx:id="volunteerNameLabel"/>
         <Label text="Area:" fx:id="volunteerAreaLabel"/>
         <Label text="Phone:" fx:id="volunteerPhoneLabel"/>

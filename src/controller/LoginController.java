@@ -77,7 +77,7 @@ public class LoginController {
                         
                         SessionManager.setCurrentUser(loggedInUser);
 
-                        String dashboardFxml = restaurantRadio.isSelected() ? "/fxml/restaurant_dashboard.fxml" : "/fxml/volunteer_dashboard.fxml";
+                        String dashboardFxml = restaurantRadio.isSelected() ? "/fxml/donor_dashboard.fxml" : "/fxml/volunteer_dashboard.fxml";
                         go(dashboardFxml, 800, 600);
                         return;
                     }

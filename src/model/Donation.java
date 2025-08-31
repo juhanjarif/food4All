@@ -9,11 +9,12 @@ public class Donation {
     private int quantity;
     private String status;
     private double amount;
+    private String distributionTime; 
     
     public Donation() {
     }
     
-    public Donation(int id, int donorId, String donorName, String foodDetails, int quantity, String status, double amount) {
+    public Donation(int id, int donorId, String donorName, String foodDetails, int quantity, String status, double amount, String distributionTime) {
         this.id = id;
         this.donorId = donorId;
         this.donorName = donorName;
@@ -21,6 +22,7 @@ public class Donation {
         this.quantity = quantity;
         this.status = status;
         this.amount = amount;
+        this.distributionTime = distributionTime;
     }
 
     public Donation(int id, int donorId, String foodDetails, int quantity, String status) {
@@ -88,5 +90,13 @@ public class Donation {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+    
+    public String getDistributionTime() { 
+        return distributionTime;
+    }
+    
+    public void setDistributionTime(String distributionTime) {
+        this.distributionTime = distributionTime;
     }
 }

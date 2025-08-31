@@ -64,7 +64,7 @@ public class DonorDao {
 
     // Donation er data dewar jonno Databse e
     public static boolean addDonation(Donation donation) {
-        String sql = "INSERT INTO donations (donorId, foodDetails, quantity, status, amount) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO donations (donorId, foodDetails, quantity, status, amount, distributionTime) VALUES (?, ?, ?, ?, ?, ?)";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
@@ -73,6 +73,7 @@ public class DonorDao {
             ps.setInt(3, donation.getQuantity());
             ps.setString(4, donation.getStatus());
             ps.setDouble(5, donation.getAmount()); // amount add kora holo
+            ps.setString(6, donation.getDistributionTime());
             return ps.executeUpdate() > 0;
 
         } 
@@ -96,7 +97,8 @@ public class DonorDao {
         	        rs.getString("foodDetails"),
         	        sql, rs.getInt("quantity"),
         	        rs.getString("status"),
-        	        rs.getDouble("amount")
+        	        rs.getDouble("amount"), 
+        	        rs.getString("distributionTime")
         	    ));
         	}
 
@@ -139,10 +141,8 @@ public class DonorDao {
         }
     }
     
- 
     // Ei method diye sob donation er history paoa jabe
     // 'history' ar 'donations' table join kore sob info niye asha hoyeche, jate HistoryLogController e use kora jai
-
     public static List<History> getAllHistory() {
         List<History> list = new ArrayList<>();
         String sql = "SELECT h.id AS historyId, h.donationId, h.volunteerId, h.deliveredAt, h.amount, d.foodDetails " +
@@ -212,7 +212,8 @@ public class DonorDao {
                         rs.getString("foodDetails"),
                         sql, rs.getInt("quantity"),
                         rs.getString("status"),
-                        rs.getDouble("amount")
+                        rs.getDouble("amount"),
+                        rs.getString("distributionTime")
                 );
             }
 
@@ -221,6 +222,38 @@ public class DonorDao {
             e.printStackTrace();
         }
         return null;
+    }
+    
+    public static List<Donation> getDonationsByDonorId(int donorId) {
+        List<Donation> list = new ArrayList<>();
+        String sql = "SELECT d.id, d.donorId, r.name AS donorName, d.foodDetails, d.quantity, d.status, d.amount, d.distributionTime " +
+                     "FROM donations d " +
+                     "JOIN restaurants r ON d.donorId = r.id " +  // Join donations with restaurants table to get donorName
+                     "WHERE d.donorId = ?";  // Filter by donorId
+        
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            
+            ps.setInt(1, donorId); 
+            ResultSet rs = ps.executeQuery();
+            
+            while (rs.next()) {
+                list.add(new Donation(
+                    rs.getInt("id"),                
+                    rs.getInt("donorId"),           
+                    rs.getString("donorName"),      
+                    rs.getString("foodDetails"),    
+                    rs.getInt("quantity"),          
+                    rs.getString("status"),         
+                    rs.getDouble("amount"),         
+                    rs.getString("distributionTime")
+                ));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return list; 
     }
     
     // monthly performance stats for volunteers
@@ -245,4 +278,26 @@ public class DonorDao {
         }
         return stats;
     }
+    
+    public Map<String, Integer> getMonthlyDonationStats(int donorId) {
+        Map<String, Integer> stats = new LinkedHashMap<>();
+        String sql = "SELECT strftime('%Y-%m', distributionTime) AS month, COUNT(*) AS count " + "FROM donations WHERE donorId = ? GROUP BY month ORDER BY month ASC";
+
+        try (Connection conn = getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, donorId);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                stats.put(rs.getString("month"), rs.getInt("count"));
+            }
+
+        } 
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return stats;
+    }
+
 }

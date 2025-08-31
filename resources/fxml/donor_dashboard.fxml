@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.Pos?>
+
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="controller.DonorDashboardController" spacing="20" alignment="center">
+
+    <Label text="Donor Dashboard" style="-fx-font-size: 24px; -fx-font-weight: bold;" />
+
+    <!-- Donor Personal Details -->
+    <VBox spacing="10">
+        <Label text="Name:" fx:id="donorNameLabel"/>
+        <Label text="Area:" fx:id="donorAreaLabel"/>
+        <Label text="Phone:" fx:id="donorPhoneLabel"/>
+        <Label text="Email:" fx:id="donorEmailLabel"/>
+    </VBox>
+
+    <HBox spacing="20" alignment="center">
+        <VBox>
+            <Label text="Last Week Donation:"/>
+            <Label fx:id="weeklyDonationLabel" />
+        </VBox>
+        <VBox>
+            <Label text="Last Month Donation:"/>
+            <Label fx:id="monthlyDonationLabel" />
+        </VBox>
+        <VBox>
+            <Label text="Total Donations:"/>
+            <Label fx:id="totalDonationLabel" />
+        </VBox>
+    </HBox>
+
+    <LineChart fx:id="donationChart" prefHeight="400" prefWidth="600">
+        <xAxis>
+            <CategoryAxis label="Month"/>
+        </xAxis>
+        <yAxis>
+            <NumberAxis label="Amount"/>
+        </yAxis>
+    </LineChart>
+
+    <HBox spacing="10" alignment="center">
+        <Button text="Donate" fx:id="donateButton" onAction="#openDonationForm"/>
+        <Button text="Logout" fx:id="logoutButton" onAction="#logout"/>
+    </HBox>
+
+</VBox>
