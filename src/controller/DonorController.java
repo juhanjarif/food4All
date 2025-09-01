@@ -10,6 +10,8 @@ import model.Donation;
 import model.History;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import dba.DonorDao;
 public class DonorController {
@@ -41,6 +43,19 @@ public class DonorController {
             donation.setFoodDetails(foodName.getText() + " (" + unitStr + ")");
 
             donation.setStatus("PENDING");
+            
+            LocalDateTime createdAt = LocalDateTime.now();
+            donation.setCreatedAtString(createdAt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+
+          //eita add kora hoise  by abrar
+            if (expiresAt.getValue() != null) {
+                LocalDateTime expiry = expiresAt.getValue().atStartOfDay(); //eita add kora hoise 
+                donation.setDistributionTime(expiry.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+            } else {
+                LocalDateTime expiry = createdAt.plusDays(1);
+                donation.setDistributionTime(expiry.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+            }
+
       
             int donationId = DonorDao.addDonationReturnId(donation);
             

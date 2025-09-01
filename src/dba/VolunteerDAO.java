@@ -3,125 +3,162 @@ package dba;
 import model.Donation;
 import java.sql.*;
 import java.util.ArrayList;
-import java.time.LocalDateTime;
 import java.util.List;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class VolunteerDAO {
 
-    //private static final String URL = "jdbc:sqlite:food4all.db";
-	
-	// JARIF
-	private static final String URL = "jdbc:sqlite:/home/jarif/Desktop/code/java/food-for-all/resources/data/food4all.db";
-    
-	private static final String GET_DONATIONS_QUERY = "SELECT * FROM donations WHERE status = 'available'";
-    private static final String CLAIM_DONATION_QUERY = "UPDATE donations SET status = 'claimed' WHERE id = ?";
+    private static final String URL = 
+        "jdbc:sqlite:E:/Eclipse IDE launcher/food4All/resources/data/food4all.db";
 
+    private static final DateTimeFormatter FORMATTER = 
+        DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+    private static Connection getConnection() throws SQLException {
+        return DriverManager.getConnection(URL);
+    }
+
+    // k
     public List<Donation> getAvailableDonations() {
         List<Donation> donations = new ArrayList<>();
-        try (Connection conn = DriverManager.getConnection(URL);
-             PreparedStatement stmt = conn.prepareStatement(GET_DONATIONS_QUERY);
+        String sql = "SELECT * FROM donations WHERE status = 'PENDING'";//pending hoilei dekhabe claim korle history te jabega
+
+        System.out.println("=== DEBUG: Starting getAvailableDonations ===");
+
+        try (Connection conn = getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
 
+            System.out.println("Database connection successful");
+            System.out.println("Connected to: " + conn.getMetaData().getURL());
+
+            int count = 0;
             while (rs.next()) {
-                Donation donation = new Donation(rs.getInt("id"), rs.getInt("donorId"), rs.getString("foodDetails"), rs.getInt("quantity"), rs.getString("status"));
+                count++;
+                System.out.println("Row " + count + ": " +
+                    "id=" + rs.getInt("id") +
+                    ", donorId=" + rs.getInt("donorId") +
+                    ", status=" + rs.getString("status") +
+                    ", foodDetails=" + rs.getString("foodDetails") +
+                    ", quantity=" + rs.getInt("quantity") +
+                    ", amount=" + rs.getDouble("amount") +
+                    ", distributionTime=" + rs.getString("distributionTime") +
+                    ", createdAt=" + rs.getString("createdAt")
+                );
+
+                // add to list if you want
+                Donation donation = new Donation(
+                	    rs.getInt("id"),
+                	    rs.getInt("donorId"),
+                	    null,
+                	    rs.getString("foodDetails"),
+                	    rs.getInt("quantity"),
+                	    rs.getString("status"),
+                	    rs.getString("createdAt"),
+                	    rs.getDouble("amount"),
+                	    rs.getString("distributionTime") // donor-set expiry
+                	);
+
                 donations.add(donation);
             }
-        } 
-        catch (SQLException e) {
+
+            System.out.println("Total rows in donations: " + count);
+
+        } catch (SQLException e) {
+            System.out.println("SQL Error: " + e.getMessage());
             e.printStackTrace();
         }
-        
+
+        System.out.println("=== DEBUG: Ending getAvailableDonations ===");
         return donations;
     }
 
+
+    // Claim a donation
     public boolean claimDonation(Donation donation) {
-        String query = CLAIM_DONATION_QUERY;
-        try (Connection conn = DriverManager.getConnection(URL);
-             PreparedStatement stmt = conn.prepareStatement(query)) {
-            stmt.setInt(1, donation.getId());
+        String sql = "UPDATE donations SET status = 'claimed', distributionTime = ? WHERE id = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            LocalDateTime distributionTime = LocalDateTime.now().plusHours(1);
+            stmt.setString(1, distributionTime.format(FORMATTER));
+            stmt.setInt(2, donation.getId());
+
             int rowsAffected = stmt.executeUpdate();
             return rowsAffected > 0;
-        } 
-        catch (SQLException e) {
+
+        } catch (SQLException e) {
             e.printStackTrace();
             return false;
         }
     }
 
-    
+    // Get next scheduled distribution
     public LocalDateTime getNextDistributionTime() {
-        String query = "SELECT distributionTime FROM donations " +
-                       "WHERE status = 'claimed' ORDER BY distributionTime ASC LIMIT 1";
-        try (Connection conn = DriverManager.getConnection(URL);
+        String query = "SELECT distributionTime FROM donations WHERE status = 'claimed' ORDER BY distributionTime ASC LIMIT 1";
+        try (Connection conn = getConnection();
              PreparedStatement stmt = conn.prepareStatement(query);
              ResultSet rs = stmt.executeQuery()) {
 
             if (rs.next()) {
-                String timeStr = rs.getString("distributionTime"); // should be in ISO format (e.g. 2025-08-31T15:00:00)
-                return LocalDateTime.parse(timeStr);
+                String timeStr = rs.getString("distributionTime");
+                if (timeStr != null && !timeStr.isEmpty()) {
+                    return LocalDateTime.parse(timeStr, FORMATTER);
+                }
             }
-        } 
-        catch (SQLException e) {
+
+        } catch (SQLException e) {
             e.printStackTrace();
         }
-        
         return null;
     }
-    
-    // weekly distribution count -- volunteer
+
+    // Weekly distribution
     public int getWeeklyDistribution(int volunteerId) {
-        String sql = "SELECT COUNT(*) AS count FROM history " +
-                     "WHERE volunteerId = ? AND deliveredAt >= date('now','-7 days')";
-        try (Connection conn = DriverManager.getConnection(URL);
+        String sql = "SELECT COUNT(*) AS count FROM history WHERE volunteerId = ? AND deliveredAt >= date('now','-7 days')";
+        try (Connection conn = getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, volunteerId);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) return rs.getInt("count");
 
-        } 
-        catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
-        
         return 0;
     }
-    
-    // monthly distribution count -- volunteer
+
+    // Monthly distribution
     public int getMonthlyDistribution(int volunteerId) {
-        String sql = "SELECT COUNT(*) AS count FROM history " +
-                     "WHERE volunteerId = ? AND strftime('%Y-%m', deliveredAt) = strftime('%Y-%m','now')";
-        try (Connection conn = DriverManager.getConnection(URL);
+        String sql = "SELECT COUNT(*) AS count FROM history WHERE volunteerId = ? AND strftime('%Y-%m', deliveredAt) = strftime('%Y-%m','now')";
+        try (Connection conn = getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, volunteerId);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) return rs.getInt("count");
 
-        } 
-        catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
-        
         return 0;
     }
-    
-    // total distribution count -- volunteer
+
+    // Total distribution
     public int getTotalDistribution(int volunteerId) {
         String sql = "SELECT COUNT(*) AS count FROM history WHERE volunteerId = ?";
-        try (Connection conn = DriverManager.getConnection(URL);
+        try (Connection conn = getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, volunteerId);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) return rs.getInt("count");
 
-        } 
-        catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
-        
         return 0;
     }
-
 }

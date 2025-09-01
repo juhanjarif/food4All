@@ -44,7 +44,7 @@ public class DatabaseConnection {
 //        return DriverManager.getConnection(url);
 //    }
 
-	private static final String URL = "jdbc:sqlite:/home/jarif/Desktop/code/java/food-for-all/resources/data/food4all.db"; 
+	private static final String URL = "jdbc:sqlite:E:/Eclipse IDE launcher/food4All/resources/data/food4all.db"; 
 
 	public static Connection getConnection() throws SQLException {
 	    return DriverManager.getConnection(URL);

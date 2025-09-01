@@ -33,7 +33,7 @@
         </VBox>
     </HBox>
 
-    <Label text="Time left for next distribution:"/>
+    <Label text="Time left for availability:"/>
     <Label fx:id="remainingTimeLabel" style="-fx-font-size: 18px;"/>
 
     <Label text="Available Donations"/>
