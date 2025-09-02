@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Alert?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AdminDashboardController">
+    <Label text="Admin Dashboard" style="-fx-font-size: 24;"/>
+    
+    <!-- User Management -->
+    <TableView fx:id="userTable">
+        <columns>
+            <TableColumn fx:id="userIdCol" text="User ID"/>
+            <TableColumn fx:id="userNameCol" text="Username"/>
+            <TableColumn fx:id="userTypeCol" text="User Type"/>
+        </columns>
+    </TableView>
+
+    <Button text="Remove User" onAction="#handleRemoveUser"/>
+
+    <!-- Donation Management -->
+    <TableView fx:id="donationTable">
+        <columns>
+            <TableColumn fx:id="donationIdCol" text="Donation ID"/>
+            <TableColumn fx:id="foodDetailsCol" text="Food Details"/>
+            <TableColumn fx:id="donationStatusCol" text="Status"/>
+        </columns>
+    </TableView>
+
+    <!-- History Logs -->
+    <TableView fx:id="historyTable">
+        <columns>
+            <TableColumn fx:id="historyDonationIdCol" text="Donation ID"/>
+            <TableColumn fx:id="historyDeliveredAtCol" text="Delivered At"/>
+        </columns>
+    </TableView>
+
+    <!-- Analytics -->
+    <BarChart fx:id="analyticsChart" title="Donation Analytics">
+        <xAxis>
+            <CategoryAxis/>
+        </xAxis>
+        <yAxis>
+            <NumberAxis/>
+        </yAxis>
+    </BarChart>
+
+    <!-- Logout -->
+    <Button text="Logout" onAction="#handleLogout"/>
+</VBox>

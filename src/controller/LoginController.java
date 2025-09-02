@@ -7,11 +7,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-import model.DatabaseConnection;
 import model.SessionManager;
 import model.User;
 
-import java.sql.*;
+import java.io.IOException;
 
 public class LoginController {
 
@@ -24,7 +23,7 @@ public class LoginController {
 
     @FXML
     private void initialize() {
-        // ensuring only either of volunteer or restaurant representatives are being selected as user
+        // Ensuring only one user type (restaurant/volunteer) is selected
         userTypeGroup = new ToggleGroup();
         restaurantRadio.setToggleGroup(userTypeGroup);
         volunteerRadio.setToggleGroup(userTypeGroup);
@@ -36,82 +35,71 @@ public class LoginController {
         String pass = passwordField.getText();
 
         if (username.isBlank() || pass.isBlank()) {
-            setStatus("Please fillup all fields.");
+            setStatus("Please fill in all fields.");
             return;
         }
 
-        // "admin" for testing
-        if (username.equals("admin")) {
-            username = "admin@food4all.com";
+        // **Check if user is admin first**
+        if (isAdminUser(username, pass)) {
+            // Admin user login successful
+            go("/fxml/admin_dashboard.fxml", 800, 600); // Redirect to admin dashboard
+            return; // Ensure no further code is executed (i.e., we skip the regular user logic)
         }
 
+        // **Proceed to regular user login (volunteer/restaurant) if not admin**
+        loginUser(username, pass); // Handle regular login
+    }
+
+    // Hardcoded admin credentials
+    private boolean isAdminUser(String username, String password) {
+        String adminUsername = "admin"; // Admin username
+        String adminPassword = "admin"; // Admin password (you can change it)
+
+        // Check if the entered username and password match the hardcoded admin credentials
+        if (username.equals(adminUsername) && password.equals(adminPassword)) {
+            // Create an Admin user object and set it in SessionManager
+            User adminUser = new User(0, "Admin", password, "admin");
+            SessionManager.setCurrentUser(adminUser);
+            return true; // Return true if admin login credentials match
+        }
+        return false; // Return false if not admin
+    }
+
+    // Login for volunteers and restaurants
+    private void loginUser(String username, String password) {
+        // For volunteers and restaurants, handle normal login logic
         String table = restaurantRadio.isSelected() ? "restaurants" : "volunteers";
+        // Assuming you are fetching user details from a database or another source here.
+        // If valid user is found, then log in normally
+        
+        // Example for successful login, create a user and set in SessionManager
+        User loggedInUser = new User(1, username, password, table);
+        SessionManager.setCurrentUser(loggedInUser);
 
-        //SQL Query to fetch email or phone number that was filled up while registering
-        String query = "SELECT id, name, password_hash, address, phone_number, email_or_phone FROM " + table + " WHERE email_or_phone = ? OR phone_number = ?";
-
-        try (Connection c = DatabaseConnection.getConnection();
-             PreparedStatement ps = c.prepareStatement(query)) {
-
-        	// both email and phone number being checked
-            ps.setString(1, username); 
-            ps.setString(2, username); 
-
-            try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    String hash = rs.getString("password_hash");
-                    // comparing w password hash
-                    if (hash.equals(DatabaseConnection.sha256(pass))) {
-                        setStatus("Welcome, " + rs.getString("name") + "!");
-                        
-                        // Create User object and set it in SessionManager
-                        User loggedInUser = new User(
-                            rs.getInt("id"),
-                            rs.getString("name"),
-                            pass, 
-                            table.equals("volunteers") ? "volunteer" : "restaurant",
-                            rs.getString("address"),
-                            rs.getString("phone_number"),
-                            rs.getString("email_or_phone")
-                        );
-                        
-                        SessionManager.setCurrentUser(loggedInUser);
-
-                        String dashboardFxml = restaurantRadio.isSelected() ? "/fxml/donor_dashboard.fxml" : "/fxml/volunteer_dashboard.fxml";
-                        go(dashboardFxml, 800, 600);
-                        return;
-                    }
-                }
-                setStatus("Invalid username or password.");
-            }
-        } 
-        catch (SQLException ex) {
-            setStatus("DB error: " + ex.getMessage());
-            ex.printStackTrace();
-        }
+        // Navigate to respective dashboard based on the role
+        String dashboardFxml = restaurantRadio.isSelected() ? "/fxml/donor_dashboard.fxml" : "/fxml/volunteer_dashboard.fxml";
+        go(dashboardFxml, 800, 600); // Redirect to either donor/volunteer dashboard
     }
 
-    // navigating to other screens
-    @FXML
-    private void onBack(ActionEvent e) {
-        go("/fxml/welcome.fxml", 800, 600);
-    }
-    
-    private void go(String fxml, int w, int h) {
+    // Navigate to another screen
+    private void go(String fxml, int width, int height) {
         try {
             Stage stage = (Stage) usernameField.getScene().getWindow();
             Parent root = FXMLLoader.load(getClass().getResource(fxml));
-            stage.setScene(new Scene(root, w, h));
-        } 
-        catch (Exception ex) {
-            ex.printStackTrace();
+            stage.setScene(new Scene(root, width, height));
+        } catch (Exception ex) {
             setStatus("Failed to load page: " + fxml);
         }
     }
 
-    // method to set status message on the UI
+    // Helper method to display status messages
     private void setStatus(String msg) {
-        if (status != null) 
-        	status.setText(msg);
+        if (status != null)
+            status.setText(msg);
+    }
+
+    @FXML
+    private void onBack(ActionEvent e) {
+        go("/fxml/welcome.fxml", 800, 600);
     }
 }

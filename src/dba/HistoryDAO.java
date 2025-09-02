@@ -12,7 +12,8 @@ import java.util.Map;
 public class HistoryDAO {
 
     //private static final String URL = "jdbc:sqlite:food4all.db";
-	private static final String URL = "jdbc:sqlite:E:/Eclipse IDE launcher/food4All/resources/data/food4all.db";
+	private static final String URL = "jdbc:sqlite:resources/data/food4all.db";
+
 
 	
 	private static final String INSERT_HISTORY_QUERY = "INSERT INTO history (volunteerId, donationId, deliveredAt) VALUES (?, ?, ?)";
