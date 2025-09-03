@@ -10,8 +10,6 @@ import javafx.stage.Stage;
 import model.SessionManager;
 import model.User;
 
-import java.io.IOException;
-
 public class LoginController {
 
     @FXML private TextField usernameField;

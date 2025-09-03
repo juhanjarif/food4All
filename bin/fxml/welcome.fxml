@@ -2,15 +2,29 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<VBox spacing="14" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="controller.WelcomeController" alignment="CENTER">
-    <padding><Insets top="28" right="28" bottom="28" left="28"/></padding>
-    
-    <Label fx:id="welcomeLabel" text="Food Donation System" styleClass="heading" />
-    <Label text="Welcome! Choose an option:" />
-    
-    <HBox spacing="10" alignment="CENTER">
-        <Button fx:id="loginBtn" text="Login" onAction="#onLogin" prefWidth="140"/>
-        <Button fx:id="registerBtn" text="Register" onAction="#onRegister" prefWidth="140"/>
+
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="controller.WelcomeController"
+      alignment="CENTER" spacing="40"
+      prefWidth="800" prefHeight="600"
+      stylesheets="@../css/welcome.css"
+      styleClass="root">
+
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <HBox spacing="120" alignment="CENTER" prefWidth="700" prefHeight="400">
+        
+        <VBox alignment="CENTER_LEFT" spacing="10">
+            <Label text="food4All" styleClass="brand-title"/>
+            <Label text="a food donation system" styleClass="brand-subtitle"/>
+        </VBox>
+
+        <VBox alignment="CENTER_RIGHT" spacing="20">
+            <Button fx:id="loginBtn" text="Login" onAction="#onLogin" prefWidth="200" styleClass="capsule-btn"/>
+            <Button fx:id="registerBtn" text="Register" onAction="#onRegister" prefWidth="200" styleClass="capsule-btn"/>
+        </VBox>
     </HBox>
+
 </VBox>

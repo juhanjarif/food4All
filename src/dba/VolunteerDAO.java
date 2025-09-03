@@ -9,7 +9,10 @@ import java.time.format.DateTimeFormatter;
 
 public class VolunteerDAO {
 
-	private static final String URL = "jdbc:sqlite:resources/data/food4all.db";
+//	private static final String URL = "jdbc:sqlite:resources/data/food4all.db";
+	
+	private static final String URL = "jdbc:sqlite:/home/jarif/Desktop/code/java/food-for-all/resources/data/food4all.db";
+
 
     private static final DateTimeFormatter FORMATTER = 
         DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");

@@ -12,7 +12,10 @@ import java.util.Map;
 public class HistoryDAO {
 
     //private static final String URL = "jdbc:sqlite:food4all.db";
-	private static final String URL = "jdbc:sqlite:resources/data/food4all.db";
+//	private static final String URL = "jdbc:sqlite:resources/data/food4all.db";
+	
+	private static final String URL = "jdbc:sqlite:/home/jarif/Desktop/code/java/food-for-all/resources/data/food4all.db";
+
 
 
 	

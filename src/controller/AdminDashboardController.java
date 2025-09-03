@@ -2,7 +2,7 @@ package controller;
 
 import dba.DonorDao;
 import dba.HistoryDAO;
-import dba.VolunteerDAO;
+//import dba.VolunteerDAO;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.chart.BarChart;
@@ -41,7 +41,7 @@ public class AdminDashboardController {
     @FXML private BarChart<String, Number> analyticsChart;
 
     private final DonorDao donorDao = new DonorDao();
-    private final VolunteerDAO volunteerDAO = new VolunteerDAO();
+//    private final VolunteerDAO volunteerDAO = new VolunteerDAO();
     private final HistoryDAO historyDAO = new HistoryDAO();
 
     @FXML

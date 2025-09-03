@@ -1,0 +1,39 @@
+.root {
+    -fx-background-color: linear-gradient(to bottom left, #2c3e91, #7d3c98);
+}
+
+.brand-title {
+    -fx-font-size: 52px;
+    -fx-font-family: "Monospace";
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+
+.brand-subtitle {
+    -fx-font-size: 22px;
+    -fx-font-family: "Monospace";
+    -fx-text-fill: white;
+}
+
+.capsule-btn {
+    -fx-background-color: #2471a3;
+    -fx-text-fill: white;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 40px;
+    -fx-padding: 12 24;
+    -fx-cursor: hand;
+    -fx-border-radius: 40px;
+    -fx-border-color: white;
+    -fx-border-width: 2px;	-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 5,0,0,2);
+}
+
+.capsule-btn:hover {
+    -fx-background-color: #b03a2e; 
+    -fx-effect: dropshadow( gaussian , rgba(176,58,46,0.8) , 20,0,0,0 );
+}
+
+.capsule-btn:pressed {
+    -fx-background-color: #78281f;
+    -fx-effect: dropshadow( gaussian , rgba(120,40,31,0.9) , 15,0,0,0 );
+}

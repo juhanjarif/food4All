@@ -3,41 +3,49 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox spacing="15"
-      xmlns="http://javafx.com/javafx/21"
-      xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="controller.LoginController"
-      alignment="CENTER">
+<StackPane fx:id="rootPane"
+           xmlns="http://javafx.com/javafx/21"
+           xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="controller.LoginController"
+           stylesheets="@../css/login.css"
+           prefWidth="800" prefHeight="600">
 
-    <padding>
-        <Insets top="24" right="24" bottom="24" left="24"/>
-    </padding>
+    <HBox spacing="0" alignment="CENTER" prefWidth="800" prefHeight="600">
 
-    <Label text="Login to Food4All" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
+        <VBox alignment="CENTER_LEFT" spacing="10" prefWidth="400" styleClass="login-left">
+            <Label text="Welcome to" styleClass="brand-subtitle"/>
+            <Label text="food4All" styleClass="brand-title"/>
+            <Label text="a food donation system" styleClass="brand-subsubtitle"/>
+        </VBox>
 
-    <GridPane hgap="10" vgap="10" maxWidth="Infinity">
-        <columnConstraints>
-            <ColumnConstraints halignment="RIGHT" />
-            <ColumnConstraints hgrow="ALWAYS" />
-        </columnConstraints>
+        <VBox alignment="CENTER" spacing="20" prefWidth="400" styleClass="login-card">
+            <Label text="Login" styleClass="login-title"/>
 
-        <Label text="Email or Phone:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-        <TextField fx:id="usernameField" promptText="Enter your email or phone" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+            <GridPane hgap="10" vgap="15" maxWidth="350">
+                <columnConstraints>
+                    <ColumnConstraints halignment="RIGHT"/>
+                    <ColumnConstraints hgrow="ALWAYS"/>
+                </columnConstraints>
 
-        <Label text="Password:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-        <PasswordField fx:id="passwordField" promptText="Enter your password" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
-    </GridPane>
+                <Label text="Email or Phone:" GridPane.rowIndex="0" GridPane.columnIndex="0" styleClass="form-label"/>
+                <TextField fx:id="usernameField" promptText="Enter your email or phone" GridPane.rowIndex="0" GridPane.columnIndex="1" styleClass="form-field"/>
 
-    <HBox spacing="10" alignment="CENTER">
-        <RadioButton fx:id="restaurantRadio" text="Restaurant"/>
-        <RadioButton fx:id="volunteerRadio" text="Volunteer"/>
+                <Label text="Password:" GridPane.rowIndex="1" GridPane.columnIndex="0" styleClass="form-label"/>
+                <PasswordField fx:id="passwordField" promptText="Enter your password" GridPane.rowIndex="1" GridPane.columnIndex="1" styleClass="form-field"/>
+            </GridPane>
+
+            <HBox spacing="15" alignment="CENTER">
+                <RadioButton fx:id="restaurantRadio" text="Restaurant" styleClass="form-radio"/>
+                <RadioButton fx:id="volunteerRadio" text="Volunteer" styleClass="form-radio"/>
+            </HBox>
+
+            <HBox spacing="20" alignment="CENTER">
+                <Button text="Back" onAction="#onBack" styleClass="btn"/>
+                <Button text="Login" onAction="#onLogin" styleClass="btn"/>
+            </HBox>
+
+            <Label fx:id="status" styleClass="status-label"/>
+        </VBox>
+
     </HBox>
-
-    <HBox spacing="10" alignment="CENTER">
-        <Button text="Back" onAction="#onBack"/>
-        <Button text="Login" onAction="#onLogin"/>
-    </HBox>
-
-    <Label fx:id="status" textFill="red"/>
-
-</VBox>
+</StackPane>
