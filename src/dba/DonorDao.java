@@ -15,19 +15,13 @@ import java.util.List;
 import java.util.Map;
 
 public class DonorDao {
+	// fetching the url locally
+    private static final String URL = DatabaseConnection.getDatabaseUrl();
 	
-	private static final String URL = "jdbc:sqlite:E:/Eclipse IDE launcher/food4All/resources/data/food4all.db";
-
-
-//	private static final String URL = "jdbc:sqlite:resources/data/food4all.db";
-	
-
-	//private static final String URL = "jdbc:sqlite:resources/data/food4all.db";
-					
     public static Connection getConnection() throws SQLException {
         return DriverManager.getConnection(URL);
     }
-    
+	
     // user der data table e add korar jonno
     public static boolean addUser(User user) {
         String sql = "INSERT INTO users (username, password, userType) VALUES (?, ?, ?)";

@@ -10,10 +10,9 @@
 <BorderPane xmlns:fx="http://javafx.com/fxml"
             fx:controller="controller.VolunteerDashboardController"
             fx:id="rootPane"
-            stylesheets="@volunteer_dashboard.css"
-            style="-fx-padding: 20;">
+            stylesheets="@../css/volunteer_dashboard.css"
+			style="-fx-padding: 20;">
 
-    <!-- Top Title -->
     <top>
         <Label text="Volunteer Dashboard"
                fx:id="dashboardTitle"
@@ -21,11 +20,9 @@
                BorderPane.alignment="CENTER"/>
     </top>
 
-    <!-- Center: Two cards equally sharing space -->
     <center>
         <HBox spacing="25" HBox.hgrow="ALWAYS">
 
-            <!-- Left Card -->
             <VBox fx:id="leftPanel" styleClass="left-panel" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
                 <Label text="Volunteer Information" style="-fx-font-size: 22px; -fx-font-weight: bold;"/>
                 <Label text="Name:" fx:id="volunteerNameLabel"/>
@@ -57,7 +54,6 @@
                 <Label fx:id="remainingTimeLabel" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
             </VBox>
 
-            <!-- Right Card -->
             <VBox fx:id="rightPanel" styleClass="right-panel" spacing="20" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
                 <Label text="Available Donations" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
                 <ListView fx:id="foodListView" VBox.vgrow="ALWAYS"/>

@@ -1,10 +1,8 @@
-/* Root Dashboard */
 #rootPane {
     -fx-background-color: linear-gradient(to bottom left, #2c3e91, #7d3c98);
     -fx-padding: 20;
 }
 
-/* Top Dashboard Title */
 .dashboard-title {
     -fx-font-size: 36px;
     -fx-font-weight: bold;
@@ -13,7 +11,6 @@
     -fx-padding: 10 0 20 0;
 }
 
-/* Left Panel: Volunteer Info + Stats */
 .left-panel {
     -fx-background-color: rgba(255, 64, 129, 0.85);
     -fx-background-radius: 20px;
@@ -32,14 +29,12 @@
     -fx-font-family: "Monospace";
 }
 
-/* Remaining time label */
 #remainingTimeLabel {
     -fx-font-size: 20px;
     -fx-font-weight: bold;
     -fx-text-fill: #ffeb3b;
 }
 
-/* Right Panel: Donations + Chart */
 .right-panel {
     -fx-background-color: rgba(255, 64, 129, 0.85);
     -fx-background-radius: 20px;
@@ -58,7 +53,6 @@
     -fx-font-family: "Monospace";
 }
 
-/* ListView Styling */
 .list-view {
     -fx-background-color: rgba(255, 255, 255, 0.15);
     -fx-border-color: #ff4081;
@@ -71,7 +65,6 @@
     -fx-text-fill: white;
 }
 
-/* ListView hover effect */
 .list-view .list-cell:hover {
     -fx-background-color: rgba(255, 255, 255, 0.25);
     -fx-text-fill: white;
@@ -79,13 +72,11 @@
     -fx-cursor: hand;
 }
 
-/* Selected ListView item */
 .list-view .list-cell:selected {
     -fx-background-color: rgba(255, 64, 129, 0.5);
     -fx-text-fill: white;
 }
 
-/* LineChart Styling */
 .chart {
     -fx-background-color: rgba(255, 64, 129, 0.2);
 }
@@ -125,14 +116,12 @@
     -fx-effect: dropshadow(gaussian, rgba(176,58,46,0.8), 15,0,0,0);
 }
 
-/* Cards hover effect */
 .left-panel:hover, .right-panel:hover {
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 20,0,0,5);
     -fx-translate-y: -2px;
     -fx-translate-x: 1px;
 }
 
-/* HBox / VBox tweaks */
 .hbox {
     -fx-spacing: 25;
 }
@@ -140,7 +129,6 @@
     -fx-spacing: 20;
 }
 
-/* Responsive layout tweaks */
 .hbox > .left-panel, .hbox > .right-panel {
     -fx-hgrow: ALWAYS;
     -fx-vgrow: ALWAYS;

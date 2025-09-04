@@ -15,10 +15,8 @@
       stylesheets="@/css/donor_dashboard.css"
       style="-fx-padding: 20;">
 
-    <!-- Dashboard Title -->
     <Label text="Donor Dashboard" styleClass="dashboard-title"/>
 
-    <!-- Donor Personal Details Card -->
     <VBox spacing="15" alignment="CENTER_LEFT" styleClass="info-card">
         <HBox spacing="10">
             <Label text="Name:" styleClass="info-label"/>
@@ -38,7 +36,6 @@
         </HBox>
     </VBox>
 
-    <!-- Donation Stats Cards -->
     <HBox spacing="20" alignment="CENTER">
         <VBox spacing="10" alignment="CENTER" styleClass="info-card">
             <Label text="Last Week Donation:" styleClass="info-label"/>
@@ -54,7 +51,6 @@
         </VBox>
     </HBox>
 
-    <!-- Donation Chart Card -->
     <VBox spacing="10" alignment="CENTER" styleClass="info-card">
         <LineChart fx:id="donationChart" styleClass="chart" prefHeight="400" prefWidth="600">
             <xAxis>
@@ -66,7 +62,6 @@
         </LineChart>
     </VBox>
 
-    <!-- Buttons -->
     <HBox spacing="15" alignment="CENTER">
         <Button text="Donate" fx:id="donateButton" onAction="#openDonationForm" styleClass="btn"/>
         <Button text="Logout" fx:id="logoutButton" onAction="#logout" styleClass="btn"/>

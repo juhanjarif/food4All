@@ -1,5 +1,6 @@
 package dba;
 
+import model.DatabaseConnection;
 import model.Donation;
 import model.User;
 import java.sql.*;
@@ -9,14 +10,9 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class VolunteerDAO {
-
-//	private static final String URL = "jdbc:sqlite:resources/data/food4all.db";
-	
-	private static final String URL = "jdbc:sqlite:E:/Eclipse IDE launcher/food4All/resources/data/food4all.db";
-
-
-
-
+	// fetching the url locally
+    private static final String URL = DatabaseConnection.getDatabaseUrl();
+    
     private static final DateTimeFormatter FORMATTER = 
         DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 

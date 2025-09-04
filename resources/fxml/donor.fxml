@@ -12,19 +12,15 @@
       style="-fx-padding: 20;">
 
 
-    <!-- Form Title -->
     <Label text="Food Donation Form" styleClass="dashboard-title" />
 
-    <!-- Form Card -->
     <VBox spacing="15" alignment="CENTER_LEFT" styleClass="info-card">
 
-        <!-- Food Name -->
         <HBox spacing="10" alignment="CENTER_LEFT">
             <Label text="Food Name:" styleClass="info-label"/>
             <TextField fx:id="foodName" styleClass="form-field" prefWidth="250"/>
         </HBox>
 
-        <!-- Quantity and Unit -->
         <HBox spacing="10" alignment="CENTER_LEFT">
             <Label text="Quantity:" styleClass="info-label"/>
             <TextField fx:id="quantity" styleClass="form-field" prefWidth="80"/>
@@ -32,41 +28,35 @@
             <TextField fx:id="unit" styleClass="form-field" prefWidth="110"/>
         </HBox>
 
-        <!-- Prepared At -->
         <HBox spacing="10" alignment="CENTER_LEFT">
             <Label text="Prepared At:" styleClass="info-label"/>
             <DatePicker fx:id="preparedAt" styleClass="form-field"/>
         </HBox>
 
-        <!-- Expires At -->
         <HBox spacing="10" alignment="CENTER_LEFT">
             <Label text="Expires At:" styleClass="info-label"/>
             <DatePicker fx:id="expiresAt" styleClass="form-field"/>
         </HBox>
 
-        <!-- Location -->
+
         <HBox spacing="10" alignment="CENTER_LEFT">
             <Label text="Location:" styleClass="info-label"/>
             <TextField fx:id="locationField" styleClass="form-field" prefWidth="250"/>
         </HBox>
 
-        <!-- Notes -->
         <HBox spacing="10" alignment="CENTER_LEFT">
             <Label text="Notes:" styleClass="info-label"/>
             <TextArea fx:id="notes" styleClass="form-field" prefHeight="60" prefWidth="250"/>
         </HBox>
 
-        <!-- Amount -->
         <HBox spacing="10" alignment="CENTER_LEFT">
             <Label text="Amount:" styleClass="info-label"/>
             <TextField fx:id="amount" styleClass="form-field" prefWidth="250"/>
         </HBox>
 
-        <!-- Buttons -->
         <HBox spacing="15" alignment="CENTER">
             <Button fx:id="submitDonation" text="Submit Donation" styleClass="btn"/>
             <Button fx:id="returnButton" text="Return" styleClass="btn" onAction="#returnToDashboard"/>
         </HBox>
-
     </VBox>
 </VBox>
