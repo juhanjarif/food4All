@@ -3,27 +3,34 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="controller.WelcomeController"
-      alignment="CENTER" spacing="40"
-      prefWidth="800" prefHeight="600"
-      stylesheets="@../css/welcome.css"
-      styleClass="root">
+<StackPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="controller.WelcomeController"
+           alignment="CENTER"
+           prefWidth="800" prefHeight="600"
+           stylesheets="@../css/welcome.css"
+           styleClass="root">
 
-    <padding>
-        <Insets top="20" right="20" bottom="20" left="20"/>
-    </padding>
+    <VBox alignment="CENTER" spacing="40">
+        <HBox spacing="120" alignment="CENTER" prefWidth="700" prefHeight="400">
+            
+            <VBox alignment="CENTER_LEFT" spacing="10">
+                <Label text="food4All" styleClass="brand-title"/>
+                <Label text="a food donation system" styleClass="brand-subtitle"/>
+            </VBox>
 
-    <HBox spacing="120" alignment="CENTER" prefWidth="700" prefHeight="400">
-        
-        <VBox alignment="CENTER_LEFT" spacing="10">
-            <Label text="food4All" styleClass="brand-title"/>
-            <Label text="a food donation system" styleClass="brand-subtitle"/>
-        </VBox>
+            <VBox alignment="CENTER_RIGHT" spacing="20">
+                <Button fx:id="loginBtn" text="Login" onAction="#onLogin" prefWidth="200" styleClass="capsule-btn"/>
+                <Button fx:id="registerBtn" text="Register" onAction="#onRegister" prefWidth="200" styleClass="capsule-btn"/>
+            </VBox>
+        </HBox>
+    </VBox>
 
-        <VBox alignment="CENTER_RIGHT" spacing="20">
-            <Button fx:id="loginBtn" text="Login" onAction="#onLogin" prefWidth="200" styleClass="capsule-btn"/>
-            <Button fx:id="registerBtn" text="Register" onAction="#onRegister" prefWidth="200" styleClass="capsule-btn"/>
-        </VBox>
-    </HBox>
-</VBox>
+    <Button fx:id="adminBtn" text="≡" onAction="#onAdminLogin"
+            styleClass="hamburger-button"
+            StackPane.alignment="TOP_RIGHT">
+        <StackPane.margin>
+            <Insets top="10" right="20" bottom="0" left="0"/>
+        </StackPane.margin>
+    </Button>
+
+</StackPane>

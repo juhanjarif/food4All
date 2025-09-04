@@ -37,3 +37,17 @@
     -fx-background-color: #78281f;
     -fx-effect: dropshadow( gaussian , rgba(120,40,31,0.9) , 15,0,0,0 );
 }
+
+.hamburger-button {
+    -fx-font-size: 48px;      
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-border-width: 0;
+    -fx-padding: 5;
+    -fx-cursor: hand;
+}
+
+.hamburger-button:hover {
+    -fx-text-fill: #f1c40f;
+}
+

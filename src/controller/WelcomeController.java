@@ -15,6 +15,9 @@ public class WelcomeController {
 
     @FXML
     private Button registerBtn;
+    
+    @FXML
+    private Button adminBtn;
 
     // login 
     @FXML
@@ -26,6 +29,12 @@ public class WelcomeController {
     @FXML
     private void onRegister(ActionEvent e) {
         go("/fxml/register.fxml", 800, 600);
+    }
+    
+    // admin login 
+    @FXML
+    private void onAdminLogin() {
+        go("/fxml/admin_login.fxml", 800, 600);
     }
 
     // switching scene helper function
