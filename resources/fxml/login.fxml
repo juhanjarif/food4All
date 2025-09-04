@@ -41,7 +41,7 @@
 
             <HBox spacing="20" alignment="CENTER">
                 <Button text="Back" onAction="#onBack" styleClass="btn"/>
-                <Button text="Login" onAction="#onLogin" styleClass="btn"/>
+                <Button fx:id="loginButton" text="Login" onAction="#onLogin" styleClass="btn"/>
             </HBox>
 
             <Label fx:id="status" styleClass="status-label"/>

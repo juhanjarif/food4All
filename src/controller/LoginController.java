@@ -15,7 +15,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import model.User;
-import dba.VolunteerDAO;
 public class LoginController {
 
     @FXML private TextField usernameField;
@@ -23,50 +22,33 @@ public class LoginController {
     @FXML private Label status;
     @FXML private RadioButton restaurantRadio;
     @FXML private RadioButton volunteerRadio;
-    @FXML private ToggleGroup userTypeGroup;
+    @FXML private Button loginButton;
 
     @FXML
     private void initialize() {
-        // Ensuring only one user type (restaurant/volunteer) is selected
-        userTypeGroup = new ToggleGroup();
+        // created a toggle group locally
+        ToggleGroup userTypeGroup = new ToggleGroup();
         restaurantRadio.setToggleGroup(userTypeGroup);
         volunteerRadio.setToggleGroup(userTypeGroup);
+        
+        // disabling login button if username or password is empty
+        loginButton.disableProperty().bind(
+            usernameField.textProperty().isEmpty().or(passwordField.textProperty().isEmpty())
+        );
+        
+        usernameField.requestFocus();
     }
 
     @FXML
     private void onLogin(ActionEvent e) {
         String username = usernameField.getText().trim();
-        String pass = passwordField.getText();
+        String pass = passwordField.getText().trim();
 
         if (username.isBlank() || pass.isBlank()) {
             setStatus("Please fill in all fields.");
             return;
         }
-
-        // **Check if user is admin first**
-        if (isAdminUser(username, pass)) {
-            // Admin user login successful
-            go("/fxml/admin_dashboard.fxml", 800, 600); // Redirect to admin dashboard
-            return; // Ensure no further code is executed (i.e., we skip the regular user logic)
-        }
-
-        // **Proceed to regular user login (volunteer/restaurant) if not admin**
-        loginUser(username, pass); // Handle regular login
-    }
-
-    // Hardcoded admin credentials
-    private boolean isAdminUser(String username, String password) {
-        String adminUsername = "admin"; // Admin username
-        String adminPassword = "admin"; // Admin password (you can change it)
-
-        // Check if the entered username and password match the hardcoded admin credentials
-        if (username.equals(adminUsername) && password.equals(adminPassword)) {
-            // Create an Admin user object and set it in SessionManager
-            User adminUser = new User(0, "Admin", password, "admin");
-            SessionManager.setCurrentUser(adminUser);
-            return true; // Return true if admin login credentials match
-        }
-        return false; // Return false if not admin
+        loginUser(username, pass); 
     }
 
     // Login for volunteers and restaurants
@@ -75,11 +57,12 @@ public class LoginController {
         String table = isVolunteer ? "volunteers" : "restaurants";
 
         try (Connection conn = DatabaseConnection.getConnection()) {
-        	//email dite hobe rki
-            String sql = "SELECT * FROM " + table + " WHERE email_or_phone = ?";
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, username);
-            ResultSet rs = ps.executeQuery();
+        	// sql query fetch for both login method using email and phone number  
+        	String sql = "SELECT * FROM " + table + " WHERE email_or_phone = ? OR phone_number = ?";
+        	PreparedStatement ps = conn.prepareStatement(sql);
+        	ps.setString(1, username);
+        	ps.setString(2, username);
+        	ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
                 String dbPasswordHash = rs.getString("password_hash"); // stored hash
@@ -100,32 +83,34 @@ public class LoginController {
 
                     String dashboardFxml = isVolunteer ? "/fxml/volunteer_dashboard.fxml" : "/fxml/donor_dashboard.fxml";
                     go(dashboardFxml, 800, 600);
-                } else {
+                } 
+                else {
                     setStatus("Invalid credentials.");
                 }
-            } else {
+            } 
+            else {
                 setStatus("User not found.");
             }
-        } catch (SQLException ex) {
+        } 
+        catch (SQLException ex) {
             ex.printStackTrace();
             setStatus("Database error: " + ex.getMessage());
         }
     }
 
-
-
-    // Navigate to another screen
+    // navigation to other screen
     private void go(String fxml, int width, int height) {
         try {
             Stage stage = (Stage) usernameField.getScene().getWindow();
             Parent root = FXMLLoader.load(getClass().getResource(fxml));
             stage.setScene(new Scene(root, width, height));
-        } catch (Exception ex) {
+        } 
+        catch (Exception ex) {
             setStatus("Failed to load page: " + fxml);
         }
     }
 
-    // Helper method to display status messages
+    // helper method for status message
     private void setStatus(String msg) {
         if (status != null)
             status.setText(msg);

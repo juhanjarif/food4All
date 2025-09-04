@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry excluding="css/|fxml/" kind="src" path="resources"/>
+	<classpathentry kind="src" path="resources"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-21">
 		<attributes>
 			<attribute name="module" value="true"/>
@@ -12,52 +12,47 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="D:/javafx-sdk-21.0.7/lib/gson-2.11.0.jar">
+	<classpathentry kind="lib" path="/home/jarif/Desktop/code/java/food-for-all/lib/sqlite-jdbc-3.50.3.0.jar">
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="D:/javafx-sdk-21.0.7/lib/javafx.base.jar">
+	<classpathentry kind="lib" path="/home/jarif/Desktop/code/java/food-for-all/lib/openjfx-21.0.8_linux-x64_bin-sdk/javafx-sdk-21.0.8/lib/javafx.base.jar">
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="D:/javafx-sdk-21.0.7/lib/javafx.controls.jar">
+	<classpathentry kind="lib" path="/home/jarif/Desktop/code/java/food-for-all/lib/openjfx-21.0.8_linux-x64_bin-sdk/javafx-sdk-21.0.8/lib/javafx.controls.jar">
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="D:/javafx-sdk-21.0.7/lib/javafx.fxml.jar">
+	<classpathentry kind="lib" path="/home/jarif/Desktop/code/java/food-for-all/lib/openjfx-21.0.8_linux-x64_bin-sdk/javafx-sdk-21.0.8/lib/javafx.fxml.jar">
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="D:/javafx-sdk-21.0.7/lib/javafx.graphics.jar">
+	<classpathentry kind="lib" path="/home/jarif/Desktop/code/java/food-for-all/lib/openjfx-21.0.8_linux-x64_bin-sdk/javafx-sdk-21.0.8/lib/javafx.graphics.jar">
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="D:/javafx-sdk-21.0.7/lib/javafx.media.jar">
+	<classpathentry kind="lib" path="/home/jarif/Desktop/code/java/food-for-all/lib/openjfx-21.0.8_linux-x64_bin-sdk/javafx-sdk-21.0.8/lib/javafx.media.jar">
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="D:/javafx-sdk-21.0.7/lib/javafx.swing.jar">
+	<classpathentry kind="lib" path="/home/jarif/Desktop/code/java/food-for-all/lib/openjfx-21.0.8_linux-x64_bin-sdk/javafx-sdk-21.0.8/lib/javafx.swing.jar">
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="D:/javafx-sdk-21.0.7/lib/javafx.web.jar">
+	<classpathentry kind="lib" path="/home/jarif/Desktop/code/java/food-for-all/lib/openjfx-21.0.8_linux-x64_bin-sdk/javafx-sdk-21.0.8/lib/javafx.web.jar">
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="D:/javafx-sdk-21.0.7/lib/javafx-swt.jar">
-		<attributes>
-			<attribute name="module" value="true"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="D:/javafx-sdk-21.0.7/lib/sqlite-jdbc-3.50.3.0.jar">
+	<classpathentry kind="lib" path="/home/jarif/Desktop/code/java/food-for-all/lib/openjfx-21.0.8_linux-x64_bin-sdk/javafx-sdk-21.0.8/lib/javafx-swt.jar">
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>
