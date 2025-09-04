@@ -1,0 +1,94 @@
+/* Root background */
+#rootPane {
+    -fx-background-color: linear-gradient(to bottom left, #2c3e91, #7d3c98);
+}
+
+/* Dashboard title */
+.dashboard-title {
+    -fx-font-size: 32px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-font-family: "Monospace";
+}
+
+/* Info cards (donor details, stats, chart) */
+.info-card {
+    -fx-background-color: rgba(255, 255, 255, 0.35);
+    -fx-background-radius: 20px;
+    -fx-padding: 20;
+    -fx-spacing: 10;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.4), 15,0,0,5);
+    -fx-border-color: rgba(255,255,255,0.5);
+    -fx-border-width: 1px;
+}
+
+/* Info labels (field names) */
+.info-label {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-font-family: "Monospace";
+}
+
+/* Value labels (dynamic values) */
+.value-label {
+    -fx-text-fill: #f4d03f;
+    -fx-font-weight: bold;
+    -fx-font-size: 16px;
+    -fx-font-family: "Monospace";
+}
+
+/* Buttons */
+.btn {
+    -fx-background-color: #2471a3;
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 30px;
+    -fx-padding: 10 24;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 5,0,0,2);
+    -fx-border-radius: 30px;
+    -fx-border-color: white;
+    -fx-border-width: 1.5px;
+}
+
+.btn:hover {
+    -fx-background-color: #9e2f2f;
+    -fx-effect: dropshadow(gaussian, rgba(176,58,46,0.8), 15,0,0,0);
+}
+
+/* Chart styling */
+.chart {
+    -fx-background-color: rgba(255,255,255,0.1);
+    -fx-background-radius: 15px;
+    -fx-padding: 15;
+    -fx-legend-visible: false;
+}
+
+.chart-plot-background {
+    -fx-background-color: rgba(255,255,255,0.05);
+    -fx-background-radius: 15px;
+}
+
+.chart-vertical-grid-lines,
+.chart-horizontal-grid-lines {
+    -fx-stroke: rgba(255,255,255,0.2);
+}
+
+.chart-series-line {
+    -fx-stroke-width: 2px;
+    -fx-stroke: #5dade2;
+}
+
+.chart-axis {
+    -fx-font-size: 12px;
+    -fx-tick-label-fill: white;
+    -fx-font-family: "Monospace";
+}
+
+.chart-symbol {
+    -fx-background-color: #f4d03f, white;
+    -fx-background-insets: 0, 2;
+    -fx-background-radius: 4px;
+}

@@ -1,0 +1,68 @@
+/* donor_form.css */
+
+/* Root background */
+#rootPane {
+    -fx-background-color: linear-gradient(to bottom right, #34495e, #5b2c6f);
+    -fx-padding: 20;
+}
+
+/* Form card styling */
+.info-card {
+    -fx-background-color: rgba(255, 255, 255, 0.25);
+    -fx-background-radius: 20px;
+    -fx-padding: 20;
+    -fx-spacing: 15;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.4), 15,0,0,5);
+    -fx-border-color: rgba(255,255,255,0.4);
+    -fx-border-width: 1px;
+}
+
+/* Form title */
+.dashboard-title {
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-font-family: "Monospace";
+    -fx-alignment: center;
+}
+
+/* Labels for form fields */
+.info-label {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-font-family: "Monospace";
+    -fx-min-width: 100px;
+}
+
+/* Input fields (TextField, TextArea, DatePicker) */
+.form-field {
+    -fx-background-color: rgba(255,255,255,0.8);
+    -fx-background-radius: 10px;
+    -fx-padding: 5 10;
+    -fx-font-size: 14px;
+    -fx-font-family: "Monospace";
+    -fx-border-radius: 10px;
+    -fx-border-color: rgba(0,0,0,0.2);
+    -fx-border-width: 1px;
+}
+
+/* Buttons */
+.btn {
+    -fx-background-color: #2471a3;
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 30px;
+    -fx-padding: 10 24;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 5,0,0,2);
+    -fx-border-radius: 30px;
+    -fx-border-color: white;
+    -fx-border-width: 1.5px;
+}
+
+.btn:hover {
+    -fx-background-color: #9e2f2f;
+    -fx-effect: dropshadow(gaussian, rgba(176,58,46,0.8), 15,0,0,0);
+}

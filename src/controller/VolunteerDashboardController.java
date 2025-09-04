@@ -8,20 +8,28 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 import model.Donation;
 import model.User;
 import model.SessionManager;
-
+import model.DatabaseConnection;
 import java.io.IOException;
+import java.sql.Connection;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.layout.BorderPane; // <-- changed from VBox
 
 public class VolunteerDashboardController {
 
@@ -33,6 +41,8 @@ public class VolunteerDashboardController {
     @FXML private Label weeklyDistributionLabel;
     @FXML private Label monthlyDistributionLabel;
     @FXML private Label totalDistributionLabel;
+    @FXML private CategoryAxis xAxis;  // now this will be linked
+
 
     @FXML private Label remainingTimeLabel;
 
@@ -43,6 +53,8 @@ public class VolunteerDashboardController {
     @FXML private Button claimDonationButton;
     @FXML private Button logoutButton;
 
+    @FXML private BorderPane rootPane; 
+
     private final VolunteerDAO volunteerDAO = new VolunteerDAO();
     private final HistoryDAO historyDAO = new HistoryDAO();
 
@@ -52,6 +64,11 @@ public class VolunteerDashboardController {
         loadDistributionStats();
         loadAvailableDonations();
         loadPerformanceChart();
+
+        // apply CSS after rootPane is loaded
+        rootPane.getStylesheets().add(getClass().getResource("/css/volunteer_dashboard.css").toExternalForm());        
+        System.out.println(getClass().getResource("/css/volunteer_dashboard.css"));
+        xAxis.setTickLabelRotation(90);
 
         foodListView.getSelectionModel().selectedItemProperty().addListener((obs, oldItem, newItem) -> {
             if (newItem != null) {
@@ -115,29 +132,31 @@ public class VolunteerDashboardController {
         foodListView.getItems().setAll(donations);
     }
 
+    @FXML
     private void loadPerformanceChart() {
-        performanceChart.getData().clear();
-        User currentVolunteer = SessionManager.getCurrentUser();
-        if (currentVolunteer == null) 
-            return;
+        try {
+            Connection conn = DatabaseConnection.getConnection();
+            String sql = "SELECT DATE(distributionTime) as day, SUM(amount) as total " +
+                         "FROM donations " +
+                         "WHERE status='PENDING' " +
+                         "GROUP BY DATE(distributionTime) " +
+                         "ORDER BY DATE(distributionTime)";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
 
-        Map<String, Integer> monthlyStats = historyDAO.getMonthlyPerformance(currentVolunteer.getId());
-        if (monthlyStats == null || monthlyStats.isEmpty()) {
-            performanceChart.setTitle("No distribution data available");
-            return;
-        }
-
-        XYChart.Series<String, Number> series = new XYChart.Series<>();
-        series.setName("Monthly Distribution");
-
-        for (Map.Entry<String, Integer> entry : monthlyStats.entrySet()) {
-            if (entry.getKey() != null && entry.getValue() != null) {
-                series.getData().add(new XYChart.Data<>(entry.getKey(), entry.getValue()));
+            XYChart.Series<String, Number> series = new XYChart.Series<>(); // <-- add here
+            while(rs.next()) {
+                series.getData().add(new XYChart.Data<>(rs.getString("day"), rs.getDouble("total")));
             }
-        }
+            performanceChart.getData().clear();  // <-- then clear and add
+            performanceChart.getData().add(series);
 
-        performanceChart.getData().add(series);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
+
+
 
     @FXML
     private void claimDonation() {
@@ -179,6 +198,7 @@ public class VolunteerDashboardController {
             showAlert(Alert.AlertType.ERROR, "Error", "Failed to load login screen.");
         }
     }
+
     //thik kora hoise updateAvailablity of time
     private void updateAvailabilityTime(Donation donation) {
         LocalDateTime expiry = donation.getExpiry();

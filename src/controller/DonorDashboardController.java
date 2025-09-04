@@ -16,6 +16,7 @@ import model.SessionManager;
 
 import java.io.IOException;
 import java.util.Map;
+import javafx.scene.layout.VBox;
 
 public class DonorDashboardController {
 
@@ -36,6 +37,7 @@ public class DonorDashboardController {
     @FXML private TableColumn<Donation, Integer> colQuantity;
     @FXML private TableColumn<Donation, Double> colAmount;
     @FXML private TableColumn<Donation, String> colStatus;
+    @FXML private VBox rootPane;
 
     @FXML private Button donateButton;
     @FXML private Button logoutButton;
@@ -48,15 +50,17 @@ public class DonorDashboardController {
         loadDonorDetails();
         loadDonationStats();
         loadDonationChart();
+        rootPane.getStylesheets().add(getClass().getResource("/css/donor_dashboard.css").toExternalForm());
+
     }
 
     private void loadDonorDetails() {
         User currentDonor = SessionManager.getCurrentUser();
         if (currentDonor != null) {
-            donorNameLabel.setText("Name: " + currentDonor.getUsername());
-            donorAreaLabel.setText("Area: " + currentDonor.getArea());
-            donorPhoneLabel.setText("Phone: " + currentDonor.getPhoneNumber());
-            donorEmailLabel.setText("Email: " + currentDonor.getEmailOrPhone());
+            donorNameLabel.setText(currentDonor.getUsername());
+            donorAreaLabel.setText(currentDonor.getArea());
+            donorPhoneLabel.setText(currentDonor.getPhoneNumber());
+            donorEmailLabel.setText(currentDonor.getEmailOrPhone());
         } 
         else {
             System.out.println("No current donor found.");

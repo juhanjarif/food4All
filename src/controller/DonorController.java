@@ -1,6 +1,7 @@
 package controller;
 
 import javafx.fxml.FXML;
+import javafx.scene.layout.VBox;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -14,20 +15,22 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 import dba.DonorDao;
+
 public class DonorController {
-	//Form ta banaisi donor.fxml so oigula ana hoilo controller e
+    //Form ta banaisi donor.fxml so oigula ana hoilo controller e
     @FXML private TextField foodName, quantity, unit, locationField;
     @FXML private DatePicker preparedAt, expiresAt;
     @FXML private TextArea notes;
     @FXML private Button submitDonation;
     @FXML private Button returnButton; 
     @FXML private TextField amount; 
-
+    @FXML private VBox rootPane;     
     private int currentDonorId = 1;
 
     @FXML
     public void initialize() {
         submitDonation.setOnAction(e -> onSubmit());
+        rootPane.getStylesheets().add(getClass().getResource("/css/donor_form.css").toExternalForm());
     }
     
     //action submit e table e add hoye jabe 
@@ -35,19 +38,18 @@ public class DonorController {
         try {
             Donation donation = new Donation();
             donation.setDonorId(currentDonorId);
-            donation.setFoodDetails(foodName.getText());	
+            donation.setFoodDetails(foodName.getText());    
             donation.setAmount(Double.parseDouble(amount.getText()));
             int qty = Integer.parseInt(quantity.getText());
             String unitStr = unit.getText();
             donation.setQuantity(qty);
             donation.setFoodDetails(foodName.getText() + " (" + unitStr + ")");
-
             donation.setStatus("PENDING");
             
             LocalDateTime createdAt = LocalDateTime.now();
             donation.setCreatedAtString(createdAt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
 
-          //eita add kora hoise  by abrar
+            //eita add kora hoise  by abrar
             if (expiresAt.getValue() != null) {
                 LocalDateTime expiry = expiresAt.getValue().atStartOfDay(); //eita add kora hoise 
                 donation.setDistributionTime(expiry.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
@@ -56,9 +58,8 @@ public class DonorController {
                 donation.setDistributionTime(expiry.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
             }
 
-      
             int donationId = DonorDao.addDonationReturnId(donation);
-            
+
             if (donationId > 0) {
                 
                 History history = new History();
@@ -66,9 +67,19 @@ public class DonorController {
                 history.setVolunteerId(0);
                 history.setDeliveredAt("");
                 DonorDao.addHistory(history);
-
+                
                 clearForm();
                 new Alert(Alert.AlertType.INFORMATION, "Donation submitted successfully!").show();
+
+                //Dashboard reload kore stats update korar jonno
+                Stage stage = (Stage) submitDonation.getScene().getWindow();
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/donor_dashboard.fxml"));
+                Parent root = loader.load();
+                stage.setScene(new Scene(root, 800, 600));
+                
+                // jodi dashboard controller e refreshStats thake
+                // DonorDashboardController controller = loader.getController();
+                // controller.refreshStats(); // eita diye totalDonationLabel update hobe dynamically
             }
             else {
                 new Alert(Alert.AlertType.ERROR, "Failed to submit donation").show();
@@ -80,6 +91,7 @@ public class DonorController {
             e.printStackTrace();
         }
     }
+
     
     @FXML
     private void returnToDashboard() {
@@ -115,5 +127,6 @@ public class DonorController {
         notes.clear();
         preparedAt.setValue(null);
         expiresAt.setValue(null);
+        amount.clear(); // 🔹 Add korlam amount field clear korar jonno
     }
 }

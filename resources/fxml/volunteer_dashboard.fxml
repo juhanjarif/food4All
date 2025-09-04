@@ -4,52 +4,80 @@
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.control.*?>
-<?import javafx.geometry.Pos?>
 
-<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="controller.VolunteerDashboardController" spacing="20" alignment="center">
-    
-    <Label text="Volunteer Dashboard" style="-fx-font-size: 24px; -fx-font-weight: bold;" />
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="controller.VolunteerDashboardController"
+            fx:id="rootPane"
+            stylesheets="@volunteer_dashboard.css"
+            style="-fx-padding: 20;">
 
-    <VBox spacing="10" layoutX="10">
-        <Label text="Name:" fx:id="volunteerNameLabel"/>
-        <Label text="Area:" fx:id="volunteerAreaLabel"/>
-        <Label text="Phone:" fx:id="volunteerPhoneLabel"/>
-        <Label text="Email:" fx:id="volunteerEmailLabel"/>
-    </VBox>
+    <!-- Top Title -->
+    <top>
+        <Label text="Volunteer Dashboard"
+               fx:id="dashboardTitle"
+               styleClass="dashboard-title"
+               BorderPane.alignment="CENTER"/>
+    </top>
 
-    <HBox spacing="20" alignment="center">
-        <VBox>
-            <Label text="Last Week Distribution:"/>
-            <Label fx:id="weeklyDistributionLabel" />
-        </VBox>
-        <VBox>
-            <Label text="Last Month Distribution:"/>
-            <Label fx:id="monthlyDistributionLabel" />
-        </VBox>
-        <VBox>
-            <Label text="Total Distribution:"/>
-            <Label fx:id="totalDistributionLabel" />
-        </VBox>
-    </HBox>
+    <!-- Center: Two cards equally sharing space -->
+    <center>
+        <HBox spacing="25" HBox.hgrow="ALWAYS">
 
-    <Label text="Time left for availability:"/>
-    <Label fx:id="remainingTimeLabel" style="-fx-font-size: 18px;"/>
+            <!-- Left Card -->
+            <VBox fx:id="leftPanel" styleClass="left-panel" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
+                <Label text="Volunteer Information" style="-fx-font-size: 22px; -fx-font-weight: bold;"/>
+                <Label text="Name:" fx:id="volunteerNameLabel"/>
+                <Label text="Area:" fx:id="volunteerAreaLabel"/>
+                <Label text="Phone:" fx:id="volunteerPhoneLabel"/>
+                <Label text="Email:" fx:id="volunteerEmailLabel"/>
 
-    <Label text="Available Donations"/>
-    <ListView fx:id="foodListView" prefHeight="200" />
+                <Separator/>
 
-    <LineChart fx:id="performanceChart" prefHeight="400" prefWidth="600">
-        <xAxis>
-            <CategoryAxis label="Month"/>
-        </xAxis>
-        <yAxis>
-            <NumberAxis label="Amount"/>
-        </yAxis>
-    </LineChart>
+                <Label text="Distributions" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+                <HBox spacing="20">
+                    <VBox>
+                        <Label text="Last Week:"/>
+                        <Label fx:id="weeklyDistributionLabel"/>
+                    </VBox>
+                    <VBox>
+                        <Label text="Last Month:"/>
+                        <Label fx:id="monthlyDistributionLabel"/>
+                    </VBox>
+                    <VBox>
+                        <Label text="Total:"/>
+                        <Label fx:id="totalDistributionLabel"/>
+                    </VBox>
+                </HBox>
 
-    <HBox spacing="10" alignment="center">
-        <Button text="Claim Donation" fx:id="claimDonationButton" onAction="#claimDonation"/>
-        <Button text="Logout" fx:id="logoutButton" onAction="#logout"/>
-    </HBox>
-</VBox>
+                <Separator/>
+
+                <Label text="Time left for availability:"/>
+                <Label fx:id="remainingTimeLabel" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+            </VBox>
+
+            <!-- Right Card -->
+            <VBox fx:id="rightPanel" styleClass="right-panel" spacing="20" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
+                <Label text="Available Donations" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+                <ListView fx:id="foodListView" VBox.vgrow="ALWAYS"/>
+
+                <LineChart fx:id="performanceChart" VBox.vgrow="ALWAYS">
+                    <xAxis>
+                        <CategoryAxis fx:id="xAxis" label="Date"/>
+                    </xAxis>
+                    <yAxis>
+                        <NumberAxis fx:id="yAxis" label="Distribution Count"/>
+                    </yAxis>
+                </LineChart>
+
+                <HBox spacing="15" alignment="CENTER">
+                    <Button text="Claim Donation" fx:id="claimDonationButton" styleClass="btn" onAction="#claimDonation"/>
+                    <Button text="Logout" fx:id="logoutButton" styleClass="btn" onAction="#logout"/>
+                </HBox>
+            </VBox>
+
+        </HBox>
+    </center>
+
+</BorderPane>

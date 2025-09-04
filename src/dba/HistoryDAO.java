@@ -1,7 +1,9 @@
 package dba;
 
 import model.History;
+
 import model.User;
+import model.DatabaseConnection;
 import model.Donation;  
 import java.sql.*;
 import java.util.ArrayList;
@@ -101,6 +103,27 @@ public class HistoryDAO {
         }
         return 0;
     }
+    public Map<String, Integer> getDailyPerformance(int volunteerId) {
+        Map<String, Integer> map = new LinkedHashMap<>();
+        String sql = "SELECT DATE(distributionTime) as day, SUM(amount) as total " +
+                "FROM donations " +
+                "WHERE status='PENDING' " +
+                "GROUP BY DATE(distributionTime) " +
+                "ORDER BY DATE(distributionTime)";
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, volunteerId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                map.put(rs.getString("day"), rs.getInt("count"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return map;
+    }
+
 
     // total distribution count
     public int getTotalDistribution(int userId) {

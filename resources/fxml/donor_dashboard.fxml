@@ -7,45 +7,69 @@
 <?import javafx.scene.control.*?>
 <?import javafx.geometry.Pos?>
 
-<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="controller.DonorDashboardController" spacing="20" alignment="center">
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="controller.DonorDashboardController"
+      fx:id="rootPane"
+      spacing="20"
+      alignment="TOP_CENTER"
+      stylesheets="@/css/donor_dashboard.css"
+      style="-fx-padding: 20;">
 
-    <Label text="Donor Dashboard" style="-fx-font-size: 24px; -fx-font-weight: bold;" />
+    <!-- Dashboard Title -->
+    <Label text="Donor Dashboard" styleClass="dashboard-title"/>
 
-    <!-- Donor Personal Details -->
-    <VBox spacing="10">
-        <Label text="Name:" fx:id="donorNameLabel"/>
-        <Label text="Area:" fx:id="donorAreaLabel"/>
-        <Label text="Phone:" fx:id="donorPhoneLabel"/>
-        <Label text="Email:" fx:id="donorEmailLabel"/>
+    <!-- Donor Personal Details Card -->
+    <VBox spacing="15" alignment="CENTER_LEFT" styleClass="info-card">
+        <HBox spacing="10">
+            <Label text="Name:" styleClass="info-label"/>
+            <Label fx:id="donorNameLabel" styleClass="value-label"/>
+        </HBox>
+        <HBox spacing="10">
+            <Label text="Area:" styleClass="info-label"/>
+            <Label fx:id="donorAreaLabel" styleClass="value-label"/>
+        </HBox>
+        <HBox spacing="10">
+            <Label text="Phone:" styleClass="info-label"/>
+            <Label fx:id="donorPhoneLabel" styleClass="value-label"/>
+        </HBox>
+        <HBox spacing="10">
+            <Label text="Email:" styleClass="info-label"/>
+            <Label fx:id="donorEmailLabel" styleClass="value-label"/>
+        </HBox>
     </VBox>
 
-    <HBox spacing="20" alignment="center">
-        <VBox>
-            <Label text="Last Week Donation:"/>
-            <Label fx:id="weeklyDonationLabel" />
+    <!-- Donation Stats Cards -->
+    <HBox spacing="20" alignment="CENTER">
+        <VBox spacing="10" alignment="CENTER" styleClass="info-card">
+            <Label text="Last Week Donation:" styleClass="info-label"/>
+            <Label fx:id="weeklyDonationLabel" styleClass="value-label"/>
         </VBox>
-        <VBox>
-            <Label text="Last Month Donation:"/>
-            <Label fx:id="monthlyDonationLabel" />
+        <VBox spacing="10" alignment="CENTER" styleClass="info-card">
+            <Label text="Last Month Donation:" styleClass="info-label"/>
+            <Label fx:id="monthlyDonationLabel" styleClass="value-label"/>
         </VBox>
-        <VBox>
-            <Label text="Total Donations:"/>
-            <Label fx:id="totalDonationLabel" />
+        <VBox spacing="10" alignment="CENTER" styleClass="info-card">
+            <Label text="Total Donations:" styleClass="info-label"/>
+            <Label fx:id="totalDonationLabel" styleClass="value-label"/>
         </VBox>
     </HBox>
 
-    <LineChart fx:id="donationChart" prefHeight="400" prefWidth="600">
-        <xAxis>
-            <CategoryAxis label="Month"/>
-        </xAxis>
-        <yAxis>
-            <NumberAxis label="Amount"/>
-        </yAxis>
-    </LineChart>
+    <!-- Donation Chart Card -->
+    <VBox spacing="10" alignment="CENTER" styleClass="info-card">
+        <LineChart fx:id="donationChart" styleClass="chart" prefHeight="400" prefWidth="600">
+            <xAxis>
+                <CategoryAxis label="Month" styleClass="chart-axis"/>
+            </xAxis>
+            <yAxis>
+                <NumberAxis label="Amount" styleClass="chart-axis"/>
+            </yAxis>
+        </LineChart>
+    </VBox>
 
-    <HBox spacing="10" alignment="center">
-        <Button text="Donate" fx:id="donateButton" onAction="#openDonationForm"/>
-        <Button text="Logout" fx:id="logoutButton" onAction="#logout"/>
+    <!-- Buttons -->
+    <HBox spacing="15" alignment="CENTER">
+        <Button text="Donate" fx:id="donateButton" onAction="#openDonationForm" styleClass="btn"/>
+        <Button text="Logout" fx:id="logoutButton" onAction="#logout" styleClass="btn"/>
     </HBox>
 
 </VBox>
