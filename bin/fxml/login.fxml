@@ -12,13 +12,13 @@
 
     <HBox spacing="0" alignment="CENTER" prefWidth="800" prefHeight="600">
 
-        <VBox alignment="CENTER_LEFT" spacing="10" prefWidth="400" styleClass="login-left">
+        <VBox alignment="CENTER_LEFT" spacing="10" prefWidth="320" styleClass="login-left">
             <Label text="Welcome to" styleClass="brand-subtitle"/>
             <Label text="food4All" styleClass="brand-title"/>
             <Label text="a food donation system" styleClass="brand-subsubtitle"/>
         </VBox>
 
-        <VBox alignment="CENTER" spacing="20" prefWidth="400" styleClass="login-card">
+        <VBox alignment="CENTER" spacing="20" prefWidth="480" styleClass="login-card">
             <Label text="Login" styleClass="login-title"/>
 
             <GridPane hgap="10" vgap="15" maxWidth="350">

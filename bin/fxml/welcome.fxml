@@ -26,5 +26,4 @@
             <Button fx:id="registerBtn" text="Register" onAction="#onRegister" prefWidth="200" styleClass="capsule-btn"/>
         </VBox>
     </HBox>
-
 </VBox>
