@@ -16,7 +16,7 @@ public class Main extends Application {
 
             Scene volunteerScene = new Scene(root, 800, 600);
 
-            primaryStage.setTitle("food4All - a nextCRabrar Project");
+            primaryStage.setTitle("food4All - A nextCRabrar Project");
             primaryStage.setScene(volunteerScene);
             primaryStage.show();
 
