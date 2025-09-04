@@ -2,14 +2,20 @@ package controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import model.DatabaseConnection;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import model.SessionManager;
-import model.User;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
+import model.User;
+import dba.VolunteerDAO;
 public class LoginController {
 
     @FXML private TextField usernameField;
@@ -65,19 +71,48 @@ public class LoginController {
 
     // Login for volunteers and restaurants
     private void loginUser(String username, String password) {
-        // For volunteers and restaurants, handle normal login logic
-        String table = restaurantRadio.isSelected() ? "restaurants" : "volunteers";
-        // Assuming you are fetching user details from a database or another source here.
-        // If valid user is found, then log in normally
-        
-        // Example for successful login, create a user and set in SessionManager
-        User loggedInUser = new User(1, username, password, table);
-        SessionManager.setCurrentUser(loggedInUser);
+        boolean isVolunteer = volunteerRadio.isSelected();
+        String table = isVolunteer ? "volunteers" : "restaurants";
 
-        // Navigate to respective dashboard based on the role
-        String dashboardFxml = restaurantRadio.isSelected() ? "/fxml/donor_dashboard.fxml" : "/fxml/volunteer_dashboard.fxml";
-        go(dashboardFxml, 800, 600); // Redirect to either donor/volunteer dashboard
+        try (Connection conn = DatabaseConnection.getConnection()) {
+        	//email dite hobe rki
+            String sql = "SELECT * FROM " + table + " WHERE email_or_phone = ?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, username);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                String dbPasswordHash = rs.getString("password_hash"); // stored hash
+                String enteredHash = DatabaseConnection.sha256(password); // hash entered password
+
+                if (dbPasswordHash.equals(enteredHash)) {
+                    // login success
+                    int id = rs.getInt("id");
+                    String name = rs.getString("name");
+                    String phone = rs.getString("phone_number");
+                    String email = rs.getString("email_or_phone");
+                    String address = rs.getString("address");
+
+                    User loggedInUser = new User(id, name, dbPasswordHash, isVolunteer ? "volunteer" : "restaurant",
+                                                 address, phone, email);
+
+                    SessionManager.setCurrentUser(loggedInUser);
+
+                    String dashboardFxml = isVolunteer ? "/fxml/volunteer_dashboard.fxml" : "/fxml/donor_dashboard.fxml";
+                    go(dashboardFxml, 800, 600);
+                } else {
+                    setStatus("Invalid credentials.");
+                }
+            } else {
+                setStatus("User not found.");
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            setStatus("Database error: " + ex.getMessage());
+        }
     }
+
+
 
     // Navigate to another screen
     private void go(String fxml, int width, int height) {

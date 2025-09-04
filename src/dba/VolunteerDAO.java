@@ -1,6 +1,7 @@
 package dba;
 
 import model.Donation;
+import model.User;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +12,9 @@ public class VolunteerDAO {
 
 //	private static final String URL = "jdbc:sqlite:resources/data/food4all.db";
 	
-	private static final String URL = "jdbc:sqlite:/home/jarif/Desktop/code/java/food-for-all/resources/data/food4all.db";
+	private static final String URL = "jdbc:sqlite:E:/Eclipse IDE launcher/food4All/resources/data/food4all.db";
+
+
 
 
     private static final DateTimeFormatter FORMATTER = 
@@ -20,7 +23,31 @@ public class VolunteerDAO {
     private static Connection getConnection() throws SQLException {
         return DriverManager.getConnection(URL);
     }
+    //eita add korsi notun kore
+    public User getVolunteerByUsername(String name) {
+        String sql = "SELECT * FROM volunteers WHERE name = ?"; // use 'name' column
+        try (Connection conn = getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+        	
+            ps.setString(1, name);
+            ResultSet rs = ps.executeQuery();
 
+            if (rs.next()) {
+                int id = rs.getInt("id");
+                String uname = rs.getString("name"); // map 'name' column
+                String password = rs.getString("password_hash"); // map 'password_hash' column
+                String phone = rs.getString("phone_number"); // map 'phone_number'
+                String email = rs.getString("email_or_phone"); // map 'email_or_phone'
+                String area = rs.getString("address"); // map 'address'
+
+                return new User(id, uname, password, "volunteer", area, phone, email);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
     // k
     public List<Donation> getAvailableDonations() {
         List<Donation> donations = new ArrayList<>();

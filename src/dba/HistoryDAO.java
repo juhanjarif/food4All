@@ -14,7 +14,8 @@ public class HistoryDAO {
     //private static final String URL = "jdbc:sqlite:food4all.db";
 //	private static final String URL = "jdbc:sqlite:resources/data/food4all.db";
 	
-	private static final String URL = "jdbc:sqlite:/home/jarif/Desktop/code/java/food-for-all/resources/data/food4all.db";
+	private static final String URL = "jdbc:sqlite:E:/Eclipse IDE launcher/food4All/resources/data/food4all.db";
+
 
 
 
