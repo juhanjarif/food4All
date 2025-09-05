@@ -20,8 +20,6 @@ import java.sql.Connection;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -29,7 +27,7 @@ import java.sql.SQLException;
 
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
-import javafx.scene.layout.BorderPane; // <-- changed from VBox
+import javafx.scene.layout.BorderPane;
 
 public class VolunteerDashboardController {
 
@@ -41,8 +39,7 @@ public class VolunteerDashboardController {
     @FXML private Label weeklyDistributionLabel;
     @FXML private Label monthlyDistributionLabel;
     @FXML private Label totalDistributionLabel;
-    @FXML private CategoryAxis xAxis;  // now this will be linked
-
+    @FXML private CategoryAxis xAxis;
 
     @FXML private Label remainingTimeLabel;
 
@@ -103,7 +100,6 @@ public class VolunteerDashboardController {
         totalDistributionLabel.setText(String.valueOf(total));
     }
 
-    @SuppressWarnings("static-access")
     private void loadAvailableDonations() {
         foodListView.getItems().clear();
 
@@ -113,7 +109,8 @@ public class VolunteerDashboardController {
                 super.updateItem(d, empty);
                 if (empty || d == null) {
                     setText(null);
-                } else {
+                } 
+                else {
                     String donor = (d.getDonorName() == null || d.getDonorName().isEmpty())
                             ? "Donor ID: " + d.getDonorId()
                             : d.getDonorName();
@@ -144,14 +141,15 @@ public class VolunteerDashboardController {
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
 
-            XYChart.Series<String, Number> series = new XYChart.Series<>(); // <-- add here
+            XYChart.Series<String, Number> series = new XYChart.Series<>();
             while(rs.next()) {
                 series.getData().add(new XYChart.Data<>(rs.getString("day"), rs.getDouble("total")));
             }
-            performanceChart.getData().clear();  // <-- then clear and add
+            performanceChart.getData().clear(); 
             performanceChart.getData().add(series);
 
-        } catch (SQLException e) {
+        } 
+        catch (SQLException e) {
             e.printStackTrace();
         }
     }
@@ -191,9 +189,10 @@ public class VolunteerDashboardController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/login.fxml"));
             Parent loginRoot = loader.load();
             Stage currentStage = (Stage) logoutButton.getScene().getWindow();
-            currentStage.setScene(new Scene(loginRoot, 800, 600));
+            currentStage.setScene(new Scene(loginRoot));
             currentStage.show();
-        } catch (IOException e) {
+        } 
+        catch (IOException e) {
             e.printStackTrace();
             showAlert(Alert.AlertType.ERROR, "Error", "Failed to load login screen.");
         }

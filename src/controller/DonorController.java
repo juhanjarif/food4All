@@ -53,7 +53,8 @@ public class DonorController {
             if (expiresAt.getValue() != null) {
                 LocalDateTime expiry = expiresAt.getValue().atStartOfDay(); //eita add kora hoise 
                 donation.setDistributionTime(expiry.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
-            } else {
+            } 
+            else {
                 LocalDateTime expiry = createdAt.plusDays(1);
                 donation.setDistributionTime(expiry.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
             }
@@ -61,21 +62,21 @@ public class DonorController {
             int donationId = DonorDao.addDonationReturnId(donation);
 
             if (donationId > 0) {
-                
-                History history = new History();
+            	History history = new History();
                 history.setDonationId(donationId);
                 history.setVolunteerId(0);
                 history.setDeliveredAt("");
                 DonorDao.addHistory(history);
-                
-                clearForm();
-                new Alert(Alert.AlertType.INFORMATION, "Donation submitted successfully!").show();
 
+                clearForm();
+                new Alert(Alert.AlertType.INFORMATION, "Donation submitted successfully!").showAndWait();
                 //Dashboard reload kore stats update korar jonno
-                Stage stage = (Stage) submitDonation.getScene().getWindow();
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/donor_dashboard.fxml"));
-                Parent root = loader.load();
-                stage.setScene(new Scene(root, 800, 600));
+                Stage currentStage = (Stage) submitDonation.getScene().getWindow();
+                Parent root = FXMLLoader.load(getClass().getResource("/fxml/donor_dashboard.fxml"));
+                currentStage.setScene(new Scene(root));
+                currentStage.setFullScreen(true);
+                currentStage.setFullScreenExitHint("");
+                currentStage.show();
                 
                 // jodi dashboard controller e refreshStats thake
                 // DonorDashboardController controller = loader.getController();
@@ -96,13 +97,12 @@ public class DonorController {
     @FXML
     private void returnToDashboard() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/donor_dashboard.fxml"));
-            Parent dashboardRoot = loader.load();
-            
-            Stage currentStage = (Stage) returnButton.getScene().getWindow();
-            currentStage.setScene(new Scene(dashboardRoot, 800, 600));
-            currentStage.show();
-            
+        	Parent dashboardRoot = FXMLLoader.load(getClass().getResource("/fxml/donor_dashboard.fxml"));
+            Stage stage = (Stage) returnButton.getScene().getWindow();
+            stage.setScene(new Scene(dashboardRoot));
+            stage.setFullScreen(true);
+            stage.setFullScreenExitHint("");
+            stage.show();
         } 
         catch (IOException e) {
             e.printStackTrace();
@@ -127,6 +127,6 @@ public class DonorController {
         notes.clear();
         preparedAt.setValue(null);
         expiresAt.setValue(null);
-        amount.clear(); // 🔹 Add korlam amount field clear korar jonno
+        amount.clear(); // Add korlam amount field clear korar jonno
     }
 }

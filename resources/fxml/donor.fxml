@@ -11,21 +11,19 @@
       stylesheets="@/css/donor_form.css"
       style="-fx-padding: 20;">
 
-
-    <Label text="Food Donation Form" styleClass="dashboard-title" />
+    <Label text="Food Donation Form" styleClass="dashboard-title"/>
 
     <VBox spacing="15" alignment="CENTER_LEFT" styleClass="info-card">
-
         <HBox spacing="10" alignment="CENTER_LEFT">
             <Label text="Food Name:" styleClass="info-label"/>
-            <TextField fx:id="foodName" styleClass="form-field" prefWidth="250"/>
+            <TextField fx:id="foodName" styleClass="form-field"/>
         </HBox>
 
         <HBox spacing="10" alignment="CENTER_LEFT">
             <Label text="Quantity:" styleClass="info-label"/>
-            <TextField fx:id="quantity" styleClass="form-field" prefWidth="80"/>
+            <TextField fx:id="quantity" styleClass="form-field"/>
             <Label text="Unit:" styleClass="info-label"/>
-            <TextField fx:id="unit" styleClass="form-field" prefWidth="110"/>
+            <TextField fx:id="unit" styleClass="form-field"/>
         </HBox>
 
         <HBox spacing="10" alignment="CENTER_LEFT">
@@ -38,20 +36,19 @@
             <DatePicker fx:id="expiresAt" styleClass="form-field"/>
         </HBox>
 
-
         <HBox spacing="10" alignment="CENTER_LEFT">
             <Label text="Location:" styleClass="info-label"/>
-            <TextField fx:id="locationField" styleClass="form-field" prefWidth="250"/>
+            <TextField fx:id="locationField" styleClass="form-field"/>
         </HBox>
 
         <HBox spacing="10" alignment="CENTER_LEFT">
             <Label text="Notes:" styleClass="info-label"/>
-            <TextArea fx:id="notes" styleClass="form-field" prefHeight="60" prefWidth="250"/>
+            <TextArea fx:id="notes" styleClass="form-field" prefHeight="60"/>
         </HBox>
 
         <HBox spacing="10" alignment="CENTER_LEFT">
             <Label text="Amount:" styleClass="info-label"/>
-            <TextField fx:id="amount" styleClass="form-field" prefWidth="250"/>
+            <TextField fx:id="amount" styleClass="form-field"/>
         </HBox>
 
         <HBox spacing="15" alignment="CENTER">

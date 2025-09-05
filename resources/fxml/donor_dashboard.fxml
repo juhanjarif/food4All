@@ -15,9 +15,11 @@
       stylesheets="@/css/donor_dashboard.css"
       style="-fx-padding: 20;">
 
+    <!-- Dashboard title -->
     <Label text="Donor Dashboard" styleClass="dashboard-title"/>
 
-    <VBox spacing="15" alignment="CENTER_LEFT" styleClass="info-card">
+    <!-- Donor personal info card -->
+    <VBox spacing="15" alignment="CENTER_LEFT" styleClass="info-card" prefWidth="700">
         <HBox spacing="10">
             <Label text="Name:" styleClass="info-label"/>
             <Label fx:id="donorNameLabel" styleClass="value-label"/>
@@ -36,35 +38,36 @@
         </HBox>
     </VBox>
 
-    <HBox spacing="20" alignment="CENTER">
-        <VBox spacing="10" alignment="CENTER" styleClass="info-card">
-            <Label text="Last Week Donation:" styleClass="info-label"/>
-            <Label fx:id="weeklyDonationLabel" styleClass="value-label"/>
-        </VBox>
-        <VBox spacing="10" alignment="CENTER" styleClass="info-card">
-            <Label text="Last Month Donation:" styleClass="info-label"/>
-            <Label fx:id="monthlyDonationLabel" styleClass="value-label"/>
-        </VBox>
-        <VBox spacing="10" alignment="CENTER" styleClass="info-card">
-            <Label text="Total Donations:" styleClass="info-label"/>
-            <Label fx:id="totalDonationLabel" styleClass="value-label"/>
-        </VBox>
-    </HBox>
+    <!-- Donation statistics cards -->
+    <HBox spacing="20" alignment="CENTER" prefWidth="700">
+	    <VBox spacing="10" alignment="CENTER" styleClass="info-card" HBox.hgrow="ALWAYS">
+	        <Label text="Last Week Donation:" styleClass="info-label"/>
+	        <Label fx:id="weeklyDonationLabel" styleClass="value-label"/>
+	    </VBox>
+	    <VBox spacing="10" alignment="CENTER" styleClass="info-card" HBox.hgrow="ALWAYS">
+	        <Label text="Last Month Donation:" styleClass="info-label"/>
+	        <Label fx:id="monthlyDonationLabel" styleClass="value-label"/>
+	    </VBox>
+	    <VBox spacing="10" alignment="CENTER" styleClass="info-card" HBox.hgrow="ALWAYS">
+	        <Label text="Total Donations:" styleClass="info-label"/>
+	        <Label fx:id="totalDonationLabel" styleClass="value-label"/>
+	    </VBox>
+	</HBox>
 
-    <VBox spacing="10" alignment="CENTER" styleClass="info-card">
-        <LineChart fx:id="donationChart" styleClass="chart" prefHeight="400" prefWidth="600">
-            <xAxis>
-                <CategoryAxis label="Month" styleClass="chart-axis"/>
-            </xAxis>
-            <yAxis>
-                <NumberAxis label="Amount" styleClass="chart-axis"/>
-            </yAxis>
-        </LineChart>
-    </VBox>
 
-    <HBox spacing="15" alignment="CENTER">
-        <Button text="Donate" fx:id="donateButton" onAction="#openDonationForm" styleClass="btn"/>
-        <Button text="Logout" fx:id="logoutButton" onAction="#logout" styleClass="btn"/>
-    </HBox>
-
+    <!-- Chart and buttons area -->
+	<VBox fx:id="chartArea" spacing="10" alignment="CENTER" VBox.vgrow="ALWAYS" prefHeight="400">
+	    <LineChart fx:id="donationChart" prefHeight="400" prefWidth="1000" styleClass="chart">
+	        <xAxis>
+	            <CategoryAxis label="Day" styleClass="chart-axis"/>
+	        </xAxis>
+	        <yAxis>
+	            <NumberAxis label="Donations" styleClass="chart-axis"/>
+	        </yAxis>
+	    </LineChart>
+	    <HBox spacing="15" alignment="CENTER">
+	        <Button text="Donate" fx:id="donateButton" onAction="#openDonationForm" styleClass="btn"/>
+	        <Button text="Logout" fx:id="logoutButton" onAction="#logout" styleClass="btn"/>
+	    </HBox>
+	</VBox>
 </VBox>

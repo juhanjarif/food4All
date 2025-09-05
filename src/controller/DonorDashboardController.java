@@ -38,7 +38,8 @@ public class DonorDashboardController {
     @FXML private TableColumn<Donation, Double> colAmount;
     @FXML private TableColumn<Donation, String> colStatus;
     @FXML private VBox rootPane;
-
+    @FXML private VBox mainContent; 
+    
     @FXML private Button donateButton;
     @FXML private Button logoutButton;
 
@@ -99,11 +100,14 @@ public class DonorDashboardController {
     @FXML
     private void openDonationForm() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/donor.fxml"));
+        	FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/donor.fxml"));
             Parent donorRoot = loader.load();
-            Stage currentStage = (Stage) donateButton.getScene().getWindow();
-            currentStage.setScene(new Scene(donorRoot, 800, 600));
-            currentStage.show();
+
+            Stage stage = (Stage) donateButton.getScene().getWindow();
+            stage.setScene(new Scene(donorRoot));
+            stage.setFullScreen(true);
+            stage.setFullScreenExitHint("");
+            stage.show();
         } 
         catch (IOException e) {
             e.printStackTrace();
@@ -113,18 +117,21 @@ public class DonorDashboardController {
 
     @FXML
     private void logout() {
-        // Clear session
         SessionManager.clearSession();
 
-        // Show logout confirmation
-        showAlert(Alert.AlertType.INFORMATION, "Logout", "You have been logged out.");
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Logout");
+        alert.setHeaderText(null);
+        alert.setContentText("You have been logged out.");
+        alert.showAndWait();
 
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/login.fxml"));
-            Parent loginRoot = loader.load();
-            Stage currentStage = (Stage) logoutButton.getScene().getWindow();
-            currentStage.setScene(new Scene(loginRoot, 800, 600));
-            currentStage.show();
+            Stage stage = (Stage) logoutButton.getScene().getWindow();
+            Parent root = FXMLLoader.load(getClass().getResource("/fxml/login.fxml"));
+            stage.setScene(new Scene(root));
+            stage.setFullScreen(true);
+            stage.setFullScreenExitHint("");
+            stage.show();
         } 
         catch (IOException e) {
             e.printStackTrace();
