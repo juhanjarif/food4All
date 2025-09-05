@@ -319,5 +319,39 @@ public class DonorDao {
         }
         return stats;
     }
+    
+    // Returns the name of the top donor by total donations
+    public String getTopDonor() {
+        String sql = "SELECT r.name, COUNT(*) AS total " +
+                     "FROM donations d " +
+                     "JOIN restaurants r ON d.donorId = r.id " +
+                     "GROUP BY r.name " +
+                     "ORDER BY total DESC LIMIT 1";
+        try (Connection conn = getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) {
+                return rs.getString("name");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    // Returns total number of donations in the system
+    public int getTotalDonations() {
+        String sql = "SELECT COUNT(*) FROM donations";
+        try (Connection conn = getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
 
 }

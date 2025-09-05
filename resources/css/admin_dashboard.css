@@ -1,0 +1,70 @@
+/* admin_dashboard.css */
+
+/* Root background */
+.root {
+    -fx-background-color: #f4f6fb;
+    -fx-font-family: "Segoe UI", sans-serif;
+}
+
+/* Section VBox border */
+.vbox > VBox {
+    -fx-border-color: #ccc;
+    -fx-border-radius: 5;
+    -fx-border-width: 1;
+    -fx-background-color: #ffffff;
+    -fx-padding: 10;
+}
+
+/* Labels */
+.label {
+    -fx-font-size: 14px;
+    -fx-text-fill: #333;
+}
+
+.label#topDonorLabel,
+.label#topClaimerLabel,
+.label#totalDonationsLabel {
+    -fx-font-weight: bold;
+    -fx-font-size: 16px;
+    -fx-text-fill: #1f4e78;
+}
+
+/* TableView styling */
+.table-view {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #ccc;
+    -fx-border-radius: 5;
+    -fx-border-width: 1;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: #e2e8f0;
+}
+
+.table-view .column-header, .table-view .filler {
+    -fx-size: 30px;
+}
+
+/* Buttons */
+.button {
+    -fx-background-color: #1f4e78;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 5;
+    -fx-cursor: hand;
+    -fx-padding: 5 15 5 15;
+}
+
+.button:hover {
+    -fx-background-color: #1662a2;
+}
+
+/* BarChart */
+.chart-legend {
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+
+.chart-bar {
+    -fx-bar-fill: #1f4e78;
+}

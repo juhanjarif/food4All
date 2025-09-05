@@ -2,7 +2,6 @@ package controller;
 
 import dba.DonorDao;
 import dba.HistoryDAO;
-//import dba.VolunteerDAO;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.chart.BarChart;
@@ -23,16 +22,14 @@ import java.util.List;
 import java.util.Map;
 
 public class AdminDashboardController {
-
     @FXML private TableView<User> userTable;
     @FXML private TableColumn<User, Integer> userIdCol;
     @FXML private TableColumn<User, String> userNameCol;
     @FXML private TableColumn<User, String> userTypeCol;
-
-    @FXML private TableView<Donation> donationTable;
-    @FXML private TableColumn<Donation, Integer> donationIdCol;
-    @FXML private TableColumn<Donation, String> foodDetailsCol;
-    @FXML private TableColumn<Donation, String> donationStatusCol;
+    
+    @FXML private Label topDonorLabel;
+    @FXML private Label topClaimerLabel;
+    @FXML private Label totalDonationsLabel;
 
     @FXML private TableView<History> historyTable;
     @FXML private TableColumn<History, Integer> historyDonationIdCol;
@@ -41,79 +38,27 @@ public class AdminDashboardController {
     @FXML private BarChart<String, Number> analyticsChart;
 
     private final DonorDao donorDao = new DonorDao();
-//    private final VolunteerDAO volunteerDAO = new VolunteerDAO();
     private final HistoryDAO historyDAO = new HistoryDAO();
 
     @FXML
     public void initialize() {
-        // Load user data
         loadUserData();
-        
-        // Load donation data
-        loadDonationData();
-        
-        // Load history data for the current user (this should be handled for admin view as well)
         loadHistoryData();
-        
-        // Load analytics data (donation stats, etc.)
         loadAnalyticsData();
     }
 
-    // Load all users from the database
+    // Load volunteers as "users"
     private void loadUserData() {
-        List<User> users = getUsers(); // Get users from the database
+        List<User> users = getUsers();
         userIdCol.setCellValueFactory(cell -> new javafx.beans.property.SimpleIntegerProperty(cell.getValue().getId()).asObject());
         userNameCol.setCellValueFactory(cell -> new javafx.beans.property.SimpleStringProperty(cell.getValue().getUsername()));
         userTypeCol.setCellValueFactory(cell -> new javafx.beans.property.SimpleStringProperty(cell.getValue().getUserType()));
         userTable.getItems().setAll(users);
     }
 
-    // Load all donations from the database
-    private void loadDonationData() {
-        List<Donation> donations = donorDao.getAllDonations(); // Get all donations
-        donationIdCol.setCellValueFactory(cell -> new javafx.beans.property.SimpleIntegerProperty(cell.getValue().getId()).asObject());
-        foodDetailsCol.setCellValueFactory(cell -> new javafx.beans.property.SimpleStringProperty(cell.getValue().getFoodDetails()));
-        donationStatusCol.setCellValueFactory(cell -> new javafx.beans.property.SimpleStringProperty(cell.getValue().getStatus()));
-        donationTable.getItems().setAll(donations);
-    }
-
-    // Load donation history for the current user (for admin)
-    private void loadHistoryData() {
-        // Get the current logged-in user (this can be for the admin viewing all history)
-        User currentUser = SessionManager.getCurrentUser();
-        
-        if (currentUser != null) {
-            // Fetch history data for the logged-in user
-            List<History> histories = historyDAO.getHistoryForUser(currentUser);
-            historyDonationIdCol.setCellValueFactory(cell -> new javafx.beans.property.SimpleIntegerProperty(cell.getValue().getDonationId()).asObject());
-            historyDeliveredAtCol.setCellValueFactory(cell -> new javafx.beans.property.SimpleStringProperty(cell.getValue().getDeliveredAt()));
-            historyTable.getItems().setAll(histories);
-        } else {
-            System.out.println("No user logged in.");
-        }
-    }
-
-    // Load analytics (donation count, worth, volunteer activity) in a chart
-    private void loadAnalyticsData() {
-        // Creating a chart for analytics (donations by month)
-        XYChart.Series<String, Number> donationSeries = new XYChart.Series<>();
-        donationSeries.setName("Donations Analytics");
-
-        // Get monthly donation stats (donorId 1 used here for demonstration)
-        Map<String, Integer> donationStats = donorDao.getMonthlyDonationStats(1);
-        for (Map.Entry<String, Integer> entry : donationStats.entrySet()) {
-            donationSeries.getData().add(new XYChart.Data<>(entry.getKey(), entry.getValue()));
-        }
-
-        // Clear existing chart data and add the new series
-        analyticsChart.getData().clear();
-        analyticsChart.getData().add(donationSeries);
-    }
-
-    // Fetch all users from the database
+    // Fetch volunteers from the database
     private List<User> getUsers() {
-        // SQL query to fetch users
-        String query = "SELECT * FROM users";
+        String query = "SELECT * FROM volunteers";
         try (Connection conn = DatabaseConnection.getConnection();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(query)) {
@@ -122,9 +67,9 @@ public class AdminDashboardController {
             while (rs.next()) {
                 users.add(new User(
                         rs.getInt("id"),
-                        rs.getString("username"),
-                        rs.getString("password"),
-                        rs.getString("userType")
+                        rs.getString("name"),
+                        rs.getString("password_hash"),
+                        "volunteer"
                 ));
             }
             return users;
@@ -134,40 +79,58 @@ public class AdminDashboardController {
         }
     }
 
-    // Handle removing a user from the database (Admin functionality)
+    private void loadHistoryData() {
+        // Admin view: load all history
+        List<History> histories = historyDAO.getAllHistory();
+        historyDonationIdCol.setCellValueFactory(cell -> new javafx.beans.property.SimpleIntegerProperty(cell.getValue().getDonationId()).asObject());
+        historyDeliveredAtCol.setCellValueFactory(cell -> new javafx.beans.property.SimpleStringProperty(cell.getValue().getDeliveredAt()));
+        historyTable.getItems().setAll(histories);
+    }
+
+    private void loadAnalyticsData() {
+        XYChart.Series<String, Number> donationSeries = new XYChart.Series<>();
+        donationSeries.setName("Monthly Donations");
+
+        Map<String, Integer> donationStats = donorDao.getMonthlyDonationStats(0);
+        for (Map.Entry<String, Integer> entry : donationStats.entrySet()) {
+            donationSeries.getData().add(new XYChart.Data<>(entry.getKey(), entry.getValue()));
+        }
+
+        analyticsChart.getData().clear();
+        analyticsChart.getData().add(donationSeries);
+
+        String topDonor = donorDao.getTopDonor();
+        String topClaimer = historyDAO.getTopClaimer();
+        int totalDonations = donorDao.getTotalDonations();
+
+        topDonorLabel.setText(topDonor != null ? topDonor : "N/A");
+        topClaimerLabel.setText(topClaimer != null ? topClaimer : "N/A");
+        totalDonationsLabel.setText(String.valueOf(totalDonations));
+    }
+
     @FXML
     private void handleRemoveUser() {
-        // Get the selected user from the table
         User selectedUser = userTable.getSelectionModel().getSelectedItem();
         if (selectedUser != null) {
-            // Call method to delete user from database
             deleteUser(selectedUser);
-            // Reload the user data to reflect changes
             loadUserData();
         }
     }
 
-    // Delete the selected user from the database
     private void deleteUser(User user) {
-        // SQL query to delete the user
-        String query = "DELETE FROM users WHERE id = ?";
+        String query = "DELETE FROM volunteers WHERE id = ?";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
-
             stmt.setInt(1, user.getId());
-            stmt.executeUpdate(); // Execute the deletion
+            stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    // Handle logout functionality
     @FXML
     private void handleLogout() {
-        // Clear the session (log out the user)
         SessionManager.clearSession();
-        
-        // Navigate back to the login screen
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/login.fxml"));
             Parent loginRoot = loader.load();
@@ -176,6 +139,48 @@ public class AdminDashboardController {
             currentStage.show();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void resetUserPassword(User user, String newPass) {
+        String sql = "UPDATE volunteers SET password_hash = ? WHERE id = ?";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, newPass);
+            ps.setInt(2, user.getId());
+            int updated = ps.executeUpdate();
+
+            if (updated > 0) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setHeaderText(null);
+                alert.setContentText("Password reset successfully for user: " + user.getUsername());
+                alert.showAndWait();
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText(null);
+            alert.setContentText("Failed to reset password for user: " + user.getUsername());
+            alert.showAndWait();
+        }
+    }
+
+    @FXML
+    private void handleResetPassword() {
+        User selectedUser = userTable.getSelectionModel().getSelectedItem();
+        if (selectedUser != null) {
+            TextInputDialog dialog = new TextInputDialog();
+            dialog.setTitle("Reset Password");
+            dialog.setHeaderText("Reset password for user: " + selectedUser.getUsername());
+            dialog.setContentText("Enter new password:");
+
+            dialog.showAndWait().ifPresent(newPass -> {
+                if (!newPass.isEmpty()) {
+                    resetUserPassword(selectedUser, newPass);
+                }
+            });
         }
     }
 }

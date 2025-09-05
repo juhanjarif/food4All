@@ -63,13 +63,19 @@ public class AdminLoginController {
     private void go(String fxml) {
         try {
             Stage stage = (Stage) usernameField.getScene().getWindow();
-            Parent root = FXMLLoader.load(getClass().getResource(fxml));
+            java.net.URL fxmlUrl = getClass().getResource(fxml);
+            if (fxmlUrl == null) {
+                setStatus("FXML file not found: " + fxml);
+                return;
+            }
+            Parent root = FXMLLoader.load(fxmlUrl);
             stage.setScene(new Scene(root));
             stage.setFullScreen(true);
             stage.setFullScreenExitHint("");
             stage.show();
         } 
         catch (Exception ex) {
+            ex.printStackTrace();
             setStatus("Failed to load page: " + fxml);
         }
     }

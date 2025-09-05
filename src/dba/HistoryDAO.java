@@ -51,7 +51,7 @@ public class HistoryDAO {
                     }
                     History historyItem = new History(
                             rs.getInt("id"),
-                            rs.getInt("donation_id"),
+                            rs.getInt("donationId"),
                             volunteerId,
                             rs.getString("deliveredAt")
                     );
@@ -109,9 +109,10 @@ public class HistoryDAO {
             ps.setInt(1, volunteerId);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                map.put(rs.getString("day"), rs.getInt("count"));
+                map.put(rs.getString("day"), rs.getInt("total"));
             }
-        } catch (SQLException e) {
+        } 
+        catch (SQLException e) {
             e.printStackTrace();
         }
         return map;
@@ -136,8 +137,9 @@ public class HistoryDAO {
 
     // performance chart 
     public Map<String, Integer> getMonthlyPerformance(int userId) {
-        String query = "SELECT strftime('%Y-%m', deliveredAt) AS month, COUNT(*) AS count " + "FROM history WHERE volunteerId = ? GROUP BY month ORDER BY month ASC";
-        Map<String, Integer> stats = new LinkedHashMap<>();
+    	String query = "SELECT strftime('%Y-%m', deliveredAt) AS month, COUNT(*) AS count " +
+                "FROM history WHERE volunteerId = ? GROUP BY month ORDER BY month ASC";
+    	Map<String, Integer> stats = new LinkedHashMap<>();
         try (Connection conn = DriverManager.getConnection(URL);
         		PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setInt(1, userId);
@@ -150,5 +152,45 @@ public class HistoryDAO {
             e.printStackTrace();
         }
         return stats;
+    }
+    
+    // Returns the name of the volunteer who claimed the most donations
+    public String getTopClaimer() {
+    	String sql = "SELECT v.name, COUNT(*) AS total " + "FROM history h " + "JOIN volunteers v ON h.volunteerId = v.id " +
+                "GROUP BY v.name " + "ORDER BY total DESC LIMIT 1";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) {
+                return rs.getString("name");
+            }
+        } 
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    
+    public List<History> getAllHistory() {
+        List<History> history = new ArrayList<>();
+        String sql = "SELECT * FROM history";
+        try (Connection conn = DriverManager.getConnection(URL);
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            while (rs.next()) {
+                History historyItem = new History(
+                        rs.getInt("id"),
+                        rs.getInt("donationId"),
+                        rs.getInt("volunteerId"),
+                        rs.getString("deliveredAt")
+                );
+                history.add(historyItem);
+            }
+        } 
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return history;
     }
 }
