@@ -22,27 +22,29 @@ public class WelcomeController {
     // login 
     @FXML
     private void onLogin(ActionEvent e) {
-        go("/fxml/login.fxml", 800, 600);
+        go("/fxml/login.fxml");
     }
 
     // register
     @FXML
     private void onRegister(ActionEvent e) {
-        go("/fxml/register.fxml", 800, 600);
+        go("/fxml/register.fxml");
     }
     
     // admin login 
     @FXML
     private void onAdminLogin() {
-        go("/fxml/admin_login.fxml", 800, 600);
+        go("/fxml/admin_login.fxml");
     }
 
     // switching scene helper function
-    private void go(String fxml, int width, int height) {
+    private void go(String fxml) {
         try {
             Stage stage = (Stage) loginBtn.getScene().getWindow();
             Parent root = FXMLLoader.load(getClass().getResource(fxml));
-            stage.setScene(new Scene(root, width, height));
+            stage.setScene(new Scene(root));
+            stage.setFullScreen(true);
+            stage.setFullScreenExitHint("");
             stage.show();
         } 
         catch (Exception ex) {

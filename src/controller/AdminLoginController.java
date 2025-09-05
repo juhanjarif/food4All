@@ -39,7 +39,7 @@ public class AdminLoginController {
         }
 
         if (isAdminUser(username, password)) {
-            go("/fxml/admin_dashboard.fxml", 800, 600);
+            go("/fxml/admin_dashboard.fxml");
         } 
         else {
             setStatus("Invalid admin credentials.");
@@ -60,11 +60,14 @@ public class AdminLoginController {
     }
 
     // navigate to other ui
-    private void go(String fxml, int width, int height) {
+    private void go(String fxml) {
         try {
             Stage stage = (Stage) usernameField.getScene().getWindow();
             Parent root = FXMLLoader.load(getClass().getResource(fxml));
-            stage.setScene(new Scene(root, width, height));
+            stage.setScene(new Scene(root));
+            stage.setFullScreen(true);
+            stage.setFullScreenExitHint("");
+            stage.show();
         } 
         catch (Exception ex) {
             setStatus("Failed to load page: " + fxml);
@@ -79,6 +82,6 @@ public class AdminLoginController {
     // back to welcome ui button
     @FXML
     private void onBack(ActionEvent e) {
-        go("/fxml/welcome.fxml", 800, 600);
+        go("/fxml/welcome.fxml");
     }
 }

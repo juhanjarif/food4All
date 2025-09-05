@@ -87,7 +87,7 @@ public class RegisterController {
 
             if (rowsAffected > 0) {
                 setStatus("Registration successful!");
-                go("/fxml/login.fxml", 800, 600);
+                go("/fxml/login.fxml");
             } 
             else {
                 setStatus("Failed to register.");
@@ -101,17 +101,17 @@ public class RegisterController {
 
     @FXML
     private void onBack(ActionEvent e) {
-        go("/fxml/welcome.fxml", 800, 600);
+        go("/fxml/welcome.fxml");
     }
 
     // helper to navigate
-    private void go(String fxml, int width, int height) {
+    private void go(String fxml) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
-            Parent root = loader.load();
-
             Stage stage = (Stage) status.getScene().getWindow();
-            stage.setScene(new Scene(root, width, height));
+            Parent root = FXMLLoader.load(getClass().getResource(fxml));
+            stage.setScene(new Scene(root));
+            stage.setFullScreen(true);
+            stage.setFullScreenExitHint("");
             stage.show();
         } 
         catch (Exception ex) {

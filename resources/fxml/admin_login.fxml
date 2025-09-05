@@ -8,20 +8,21 @@
            xmlns:fx="http://javafx.com/fxml/1"
            fx:controller="controller.AdminLoginController"
            stylesheets="@../css/login.css"
-           prefWidth="800" prefHeight="600">
+           prefWidth="800" prefHeight="600"
+           styleClass="admin-login">
 
     <HBox spacing="0" alignment="CENTER" prefWidth="800" prefHeight="600">
 
-        <VBox alignment="CENTER_LEFT" spacing="10" prefWidth="320" styleClass="login-left">
+        <VBox alignment="CENTER" spacing="10" prefWidth="400" styleClass="login-left">
             <Label text="Welcome to" styleClass="brand-subtitle"/>
             <Label text="food4All" styleClass="brand-title"/>
             <Label text="a food donation system" styleClass="brand-subsubtitle"/>
         </VBox>
 
-        <VBox alignment="CENTER" spacing="20" prefWidth="480" styleClass="login-card admin-login-card">
+        <VBox alignment="CENTER" spacing="25" prefWidth="480" styleClass="login-card admin-login-card">
             <Label text="System Login" styleClass="login-title"/>
 
-            <GridPane hgap="10" vgap="15" maxWidth="350">
+            <GridPane hgap="10" vgap="15" maxWidth="400">
                 <columnConstraints>
                     <ColumnConstraints halignment="RIGHT"/>
                     <ColumnConstraints hgrow="ALWAYS"/>
@@ -34,7 +35,7 @@
                 <PasswordField fx:id="passwordField" promptText="Enter your password" GridPane.rowIndex="1" GridPane.columnIndex="1" styleClass="form-field"/>
             </GridPane>
 
-            <HBox spacing="20" alignment="CENTER">
+            <HBox spacing="30" alignment="CENTER">
                 <Button text="Back" onAction="#onBack" styleClass="btn"/>
                 <Button fx:id="loginButton" text="Login" onAction="#onLogin" styleClass="btn"/>
             </HBox>

@@ -14,10 +14,12 @@ public class Main extends Application {
         	FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/welcome.fxml"));
         	Parent root = loader.load();
 
-            Scene volunteerScene = new Scene(root, 800, 600);
+            Scene scene = new Scene(root);
 
             primaryStage.setTitle("food4All - A nextCRabrar Project");
-            primaryStage.setScene(volunteerScene);
+            primaryStage.setScene(scene);
+            primaryStage.setFullScreen(true);
+            primaryStage.setFullScreenExitHint("");
             primaryStage.show();
 
         } 

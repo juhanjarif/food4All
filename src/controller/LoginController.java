@@ -82,7 +82,7 @@ public class LoginController {
                     SessionManager.setCurrentUser(loggedInUser);
 
                     String dashboardFxml = isVolunteer ? "/fxml/volunteer_dashboard.fxml" : "/fxml/donor_dashboard.fxml";
-                    go(dashboardFxml, 800, 600);
+                    go(dashboardFxml);
                 } 
                 else {
                     setStatus("Invalid credentials.");
@@ -99,11 +99,14 @@ public class LoginController {
     }
 
     // navigation to other screen
-    private void go(String fxml, int width, int height) {
+    private void go(String fxml) {
         try {
             Stage stage = (Stage) usernameField.getScene().getWindow();
             Parent root = FXMLLoader.load(getClass().getResource(fxml));
-            stage.setScene(new Scene(root, width, height));
+            stage.setScene(new Scene(root));
+            stage.setFullScreen(true);
+            stage.setFullScreenExitHint("");
+            stage.show();
         } 
         catch (Exception ex) {
             setStatus("Failed to load page: " + fxml);
@@ -118,6 +121,6 @@ public class LoginController {
 
     @FXML
     private void onBack(ActionEvent e) {
-        go("/fxml/welcome.fxml", 800, 600);
+        go("/fxml/welcome.fxml");
     }
 }

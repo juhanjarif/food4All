@@ -8,20 +8,20 @@
            xmlns:fx="http://javafx.com/fxml/1"
            fx:controller="controller.LoginController"
            stylesheets="@../css/login.css"
-           prefWidth="800" prefHeight="600">
+           styleClass="root">
 
     <HBox spacing="0" alignment="CENTER" prefWidth="800" prefHeight="600">
 
-        <VBox alignment="CENTER_LEFT" spacing="10" prefWidth="320" styleClass="login-left">
+        <VBox alignment="CENTER" spacing="10" prefWidth="400" styleClass="login-left">
             <Label text="Welcome to" styleClass="brand-subtitle"/>
             <Label text="food4All" styleClass="brand-title"/>
             <Label text="a food donation system" styleClass="brand-subsubtitle"/>
         </VBox>
 
-        <VBox alignment="CENTER" spacing="20" prefWidth="480" styleClass="login-card">
+        <VBox alignment="CENTER" spacing="25" prefWidth="480" styleClass="login-card">
             <Label text="Login" styleClass="login-title"/>
 
-            <GridPane hgap="10" vgap="15" maxWidth="350">
+            <GridPane hgap="10" vgap="15" maxWidth="400">
                 <columnConstraints>
                     <ColumnConstraints halignment="RIGHT"/>
                     <ColumnConstraints hgrow="ALWAYS"/>
@@ -34,12 +34,12 @@
                 <PasswordField fx:id="passwordField" promptText="Enter your password" GridPane.rowIndex="1" GridPane.columnIndex="1" styleClass="form-field"/>
             </GridPane>
 
-            <HBox spacing="15" alignment="CENTER">
+            <HBox spacing="20" alignment="CENTER">
                 <RadioButton fx:id="restaurantRadio" text="Restaurant" styleClass="form-radio"/>
                 <RadioButton fx:id="volunteerRadio" text="Volunteer" styleClass="form-radio"/>
             </HBox>
 
-            <HBox spacing="20" alignment="CENTER">
+            <HBox spacing="30" alignment="CENTER">
                 <Button text="Back" onAction="#onBack" styleClass="btn"/>
                 <Button fx:id="loginButton" text="Login" onAction="#onLogin" styleClass="btn"/>
             </HBox>

@@ -8,21 +8,20 @@
            xmlns:fx="http://javafx.com/fxml/1"
            fx:controller="controller.RegisterController"
            stylesheets="@../css/register.css"
-           prefWidth="800" prefHeight="600"
            styleClass="root">
 
-    <HBox spacing="0" prefWidth="800" prefHeight="600">
+    <HBox spacing="0" alignment="CENTER" prefWidth="800" prefHeight="600">
 
-        <VBox alignment="CENTER_LEFT" spacing="10" prefWidth="300" styleClass="register-left">
+        <VBox alignment="CENTER" spacing="10" prefWidth="350" styleClass="register-left">
             <Label text="Welcome to" styleClass="brand-subtitle"/>
             <Label text="food4All" styleClass="brand-title"/>
             <Label text="a food donation system" styleClass="brand-subsubtitle"/>
         </VBox>
 
-        <VBox alignment="CENTER" spacing="15" prefWidth="500" styleClass="register-card">
+        <VBox alignment="CENTER" spacing="20" prefWidth="500" styleClass="register-card">
             <Label text="Register" styleClass="register-title"/>
 
-            <GridPane hgap="10" vgap="10" maxWidth="400">
+            <GridPane hgap="10" vgap="10" maxWidth="450">
                 <columnConstraints>
                     <ColumnConstraints halignment="RIGHT"/>
                     <ColumnConstraints hgrow="ALWAYS"/>
@@ -47,12 +46,12 @@
                 <PasswordField fx:id="confirmField" promptText="Confirm your password" GridPane.rowIndex="5" GridPane.columnIndex="1" styleClass="form-field"/>
             </GridPane>
 
-            <HBox spacing="15" alignment="CENTER">
+            <HBox spacing="20" alignment="CENTER">
                 <RadioButton fx:id="restaurantRadio" text="Restaurant" styleClass="form-radio"/>
                 <RadioButton fx:id="volunteerRadio" text="Volunteer" styleClass="form-radio"/>
             </HBox>
 
-            <HBox spacing="20" alignment="CENTER">
+            <HBox spacing="30" alignment="CENTER">
                 <Button text="Back" onAction="#onBack" styleClass="btn"/>
                 <Button text="Register" onAction="#onRegister" styleClass="btn"/>
             </HBox>
